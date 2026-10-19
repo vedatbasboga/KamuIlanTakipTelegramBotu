@@ -38,6 +38,12 @@ def load_dotenv(path: str | Path = ".env") -> None:
             os.environ[key] = value
 
 
+def print_message(text: str) -> bool:
+    """Dry-run'da Telegram yerine konsola yazar."""
+    print(f"\n----- Telegram mesajı -----\n{text}\n---------------------------")
+    return True
+
+
 def test_telegram() -> int:
     """Bağlantı testi mesajı ve örnek (sahte) bir ilan kartı gönderir."""
     with make_client() as client:
@@ -135,13 +141,19 @@ def main(argv: list[str] | None = None) -> int:
         if name in REGISTRY:
             sources.append(REGISTRY[name])
         else:
-            log.warning("[%s] henüz uygulanmadı, atlanıyor.", name)
-
-    if args.dry_run:
-        log.info("Dry-run: bildirim gönderilmeyecek, state kaydedilmeyecek.")
+            log.warning("[%s] uygulanmadı (bkz. docs/kaynaklar.md), atlanıyor.", name)
 
     with make_client() as client:
-        summary = runner.run(sources, config, state, client)
+        if args.dry_run:
+            log.info("Dry-run: bildirim gönderilmeyecek, state kaydedilmeyecek.")
+            deliver = print_message
+        else:
+            try:
+                deliver = notifier_from_env(client).send
+            except NotifierConfigError as e:
+                log.error("HATA: %s", e)
+                return 2
+        summary = runner.run(sources, config, state, client, deliver)
 
     if args.dry_run or args.no_save:
         log.info("State kaydedilmedi.")
