@@ -9,7 +9,7 @@ sources:            # kaynak aç/kapa (true = takip et, false = atla)
   ilan_gov: true
   kariyer_kapisi: true
   iskur: true
-  resmi_gazete: true
+  resmi_gazete: false              # kapalı: erişim güvenilmez, içerik ilan.gov.tr'de var (docs/kaynaklar.md)
   yerel_yonetimler: true
 
 filters:

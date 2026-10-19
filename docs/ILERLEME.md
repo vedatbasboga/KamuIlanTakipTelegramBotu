@@ -4,13 +4,45 @@
 |---|---|
 | 1 — İskelet ve altyapı | ✅ Tamamlandı (2026-10-19) |
 | 2 — Telegram bildirimi | ✅ Tamamlandı (2026-10-19) |
-| 3 — Kaynak keşfi | ⏳ Bekliyor |
+| 3 — Kaynak keşfi | 🟡 Kullanıcı incelemesi bekleniyor |
 | 4 — Parser'lar | ⏳ Bekliyor |
 | 5 — Filtre, dedup, orkestrasyon | ⏳ Bekliyor |
 | 6 — GitHub Actions | ⏳ Bekliyor |
 | 7 — Sağlamlaştırma (opsiyonel) | ⏳ Bekliyor |
 
 ---
+
+## Aşama 3 — Kaynak keşfi
+
+### Tamamlananlar
+- `docs/kaynaklar.md`: 6 kaynağın hepsi için bölüm.
+- Kullanılabilir: `kariyer_kapisi` (JSON, en temiz), `ilan_gov` (JSON; 🧑 kullanıcının cURL'ünden
+  gerekli iki başlık bulundu), `yerel_yonetimler` (HTML), `kamuilan_sbb` (HTML), `iskur` (HTML, il
+  bazında, ağır).
+- Kapatıldı: `resmi_gazete` (ilan sayfaları yanıtsız kalıyor / IP geçici engelleniyor; içeriği
+  ilan.gov.tr'de var).
+- Fixture'lar `tests/fixtures/<kaynak>/` altında (resmi_gazete hariç). Büyük SVG ve ViewState
+  kırpıldı.
+- Kariyer Kapısı'nın gerçek adresi `kariyerkapisi.gov.tr`; `DISPLAY_NAMES` ve CLAUDE.md düzeltildi.
+- Repo `KamuIlanTakipTelegramBotu` olarak yeniden adlandırılmış; remote ve User-Agent güncellendi.
+
+### Kabul kriterleri
+- [x] `docs/kaynaklar.md`'de 6 kaynağın hepsi için bölüm var.
+- [x] Kullanılabilir her kaynağın fixture'ı repoda.
+- [x] Sorunlu kaynak (`resmi_gazete`) `config.yaml`'da `false` ve burada not edildi.
+- [ ] 🧑 Kullanıcı `docs/kaynaklar.md`'yi gözden geçirdi.
+
+### Açık sorular (kullanıcı kararı)
+1. `kamuilan_sbb` kararlı ID vermiyor → kurum+başlık+yayın tarihinden bileşik anahtar
+   (CLAUDE.md kural 5'ten sapma). Onay?
+2. `kamuilan_sbb` kategori etiketi için ek POST'lar (≈6 istek, ~1.7 MB) yapılsın mı?
+3. `iskur` çalışma başına ~18 istek / ~10 MB ve içeriği büyük ölçüde kamuilan ile örtüşüyor.
+   Açık kalsın mı?
+4. `resmi_gazete` kapalı kalsın mı?
+
+### Bilinen sorunlar
+- ilan.gov.tr sunucu sertifikası 2026-11-29'da bitiyor; yenilenince ara sertifika değişebilir.
+- Resmî Gazete IP engeli: Keşif sırasında kısa sürede ~20 istek sonrası ~20+ dk engel.
 
 ## Aşama 2 — Telegram bildirimi
 

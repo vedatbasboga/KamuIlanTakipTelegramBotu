@@ -8,10 +8,10 @@ erişim Aşama 6.1'de ayrıca test edilecek.
 | Kaynak | Yöntem | Kararlı ID | İstek/çalışma | Durum |
 |---|---|---|---|---|
 | `kamuilan_sbb` | HTML (ASP.NET WebForms) | ❌ yok → bileşik anahtar | 1 (+ isteğe bağlı kategori POST'ları) | ✅ Kullanılabilir |
-| `ilan_gov` | JSON API (ABP) | ? | ? | ⏸️ API 403 — kullanıcıdan cURL bekleniyor |
+| `ilan_gov` | JSON API (ABP) | ✅ `id` | 2 liste + ≤20 detay | ✅ Kullanılabilir (özel başlıklar + ara sertifika) |
 | `kariyer_kapisi` | JSON API | ✅ `guid` | 1 | ✅ Kullanılabilir (en temiz kaynak) |
 | `iskur` | HTML, il bazında | ✅ medya ID | 1 + ilan olan il sayısı (~17) | ✅ Kullanılabilir (ağır) |
-| `resmi_gazete` | HTML (günlük sayı) | ? | ? | ⏸️ Yoğun istekte IP geçici engelleniyor; keşif yarım |
+| `resmi_gazete` | HTML (günlük sayı) | ? | ? | ⛔ Kapalı — ilan sayfaları güvenilmez yanıt veriyor; içerik ilan.gov.tr'de var |
 | `yerel_yonetimler` | HTML | ✅ URL sonundaki sayı | 1 | ✅ Kullanılabilir |
 
 ---
@@ -60,23 +60,45 @@ erişim Aşama 6.1'de ayrıca test edilecek.
 ## ilan_gov
 - **Yöntem:** JSON API (Angular SPA, ASP.NET Boilerplate). API kökü
   `https://www.ilan.gov.tr/api` (`/assets/appconfig.production.json`).
-- **Liste uç noktası (aday):** `POST https://www.ilan.gov.tr/api/api/services/app/Ad/AdsByFilter`
-  (`Content-Type: application/json-patch+json`). Gövde biçimi henüz bilinmiyor (çağrı tembel
-  yüklenen bir JS parçasında).
-- **Sorunlar:**
-  1. **SSL:** Sunucu ara sertifikayı göndermiyor (`GeoTrust TLS RSA CA G1`, DigiCert Global Root
-     G2 altında). Tarayıcılar AIA ile tamamlıyor; Python/OpenSSL "unable to get local issuer
-     certificate" veriyor. **Çözüm:** `verify=False` değil; ara sertifika repoya PEM olarak
-     eklenir, `certifi` + bu PEM ile `ssl.SSLContext` kurulur (doğrulama açık kalır). Test edildi,
-     çalışıyor. Ara sertifika SHA-256:
-     `C0:6E:30:7F:7C:FC:1D:32:FA:72:A4:C0:33:C8:7B:90:01:9A:F2:16:F0:77:5D:64:97:8A:2E:CA:6C:8A:23:0E`,
-     geçerlilik 2027-11-02. Sunucu sertifikası 2026-11-29'da bitiyor; yenilenince ara sertifika
-     değişebilir.
-  2. **API 403:** `/api/api/services/app/...` altındaki **tüm** uç noktalar (GET dahil)
-     tarayıcı dışı isteklere boş gövdeli 403 dönüyor; tarayıcı UA, Origin, Referer, oturum
-     çerezi denendi, değişmedi.
-  3. RSS yok; `robots.txt`'deki sitemap'ler 404.
-- **🧑 Bekleniyor:** Tarayıcıdan "Copy as cURL" (bkz. ILERLEME.md).
+- **Liste uç noktası:** `POST https://www.ilan.gov.tr/api/api/services/app/Ad/AdsByFilter`
+  gövde `{"keys": {"txv": ["8"]}, "skipCount": 0, "maxResultCount": 20}`
+  (`txv=8` = "Kamu-Akademik Personel" kategorisi; boş `keys` tüm ilan türlerini döndürür: emlak,
+  icra, ihale...).
+- **Gerekli başlıklar:** 🔑 `X-Request-Origin: IGT-UI` **ve** `X-Requested-With: XMLHttpRequest`
+  (ikisi birlikte; biri eksikse tüm API boş gövdeli 403). Ayrıca
+  `Content-Type: application/json-patch+json`. Tarayıcı UA'sı, çerez, Origin/Referer **gerekmiyor**
+  (kullanıcının "Copy as cURL" çıktısından eleme ile bulundu; projenin kendi UA'sıyla çalışıyor).
+- **Sayfalama:** `skipCount` / `maxResultCount`; sunucu en fazla **20** döndürüyor (50 istenince
+  20). Sıralama yayın tarihine göre yeniden eskiye (kesin değil; aynı gün içinde karışık).
+  Kategoride ~134 aktif ilan. Çalışma başına 2 sayfa (40 ilan) yeterli.
+- **İlan ID alanı:** ✅ `id` (sayısal metin, ör. `"2261370"`). Ayrıca `adNo` (ör. `DPB845523`).
+- **Liste alanları:** `title`, `advertiserName` (kurum), `addressCityName` (il, büyük harf),
+  `publishStartDate` (UTC, `Z`), `urlStr` (göreli link), `values[key=Kategori]` (alt kategori:
+  "KPSS B ve Mahalli İdareler Kadro Alımları", "Sözleşmeli Personel ve 4/B Alımları",
+  "Öğretim Üyesi Alımları ...", "Sürekli İşçi Alımı" ...), `adTypeFilters` ("Resmî Gazete Yayım
+  Tarihi", nadiren "Son başvuru Tarihi"), `adSourceCode` (`DPB` Devlet Personel Başkanlığı,
+  `YOK`, `ILN`).
+  başlık ✓, kurum ✓, yayın tarihi ✓, il ✓, **kategori ✓**, son başvuru ~ (nadiren),
+  öğrenim/KPSS → detaydan.
+- **Detay:** `GET https://www.ilan.gov.tr/api/api/services/app/AdDetail/GetAdDetail?id=<id>`
+  (aynı iki başlık) → `result.content` ilanın **tam metni (HTML)**. Metinden `normalize_kpss` /
+  `normalize_education` ile KPSS ve öğrenim çıkarılabiliyor (test: bilişim ilanı → `{P3}`,
+  `{lisans}`). Sadece yeni ilanlar için `enrich` (çalışma başına ≤20 istek).
+- **Kullanıcıya giden URL:** `https://www.ilan.gov.tr` + `urlStr`.
+- **Not:** ilan.gov.tr, Resmî Gazete'de yayımlanan personel ilanlarını da içeriyor
+  ("Resmî Gazete Yayım Tarihi" alanı, kaynak `DPB`/`YOK`) → `resmi_gazete` kaynağıyla büyük ölçüde
+  örtüşür.
+- **SSL:** Sunucu ara sertifikayı göndermiyor (`GeoTrust TLS RSA CA G1`, DigiCert Global Root G2
+  altında). Tarayıcılar AIA ile tamamlıyor; Python/OpenSSL "unable to get local issuer
+  certificate" veriyor. **Çözüm:** `verify=False` değil; ara sertifika repoya PEM olarak eklenir,
+  `certifi` + bu PEM ile `ssl.SSLContext` kurulur (doğrulama açık kalır; test edildi).
+  Ara sertifika SHA-256:
+  `C0:6E:30:7F:7C:FC:1D:32:FA:72:A4:C0:33:C8:7B:90:01:9A:F2:16:F0:77:5D:64:97:8A:2E:CA:6C:8A:23:0E`,
+  geçerlilik 2027-11-02. Sunucu sertifikası 2026-11-29'da bitiyor; yenilenince ara sertifika
+  değişebilir → SSL hatası sağlık uyarısı olarak görünür.
+- **Diğer:** RSS yok; `robots.txt`'deki sitemap'ler 404.
+- **Fixture:** `tests/fixtures/ilan_gov/list_personel_page1.json` (20 ilan, `cityCounts`
+  kırpıldı), `tests/fixtures/ilan_gov/detail_2261370.json`, `detail_2261004.json`.
 
 ## kariyer_kapisi
 - **Gerçek adres:** `https://kariyerkapisi.gov.tr/isealim` (`kariyerkapisi.cbiko.gov.tr` DNS'te
@@ -133,9 +155,15 @@ erişim Aşama 6.1'de ayrıca test edilecek.
   istekten sonra ana sayfa dahil tüm istekler yanıtsız kaldı. Engel UA'dan bağımsız (aynı UA
   bir dakika arayla hem geçti hem takıldı). Başka siteler aynı anda erişilebilirdi.
   → Bot çalışma başına en fazla 2 istek atmalı (ana sayfa + Çeşitli İlânlar), kısa timeout.
-- **Keşif yarım:** "Çeşitli İlânlar" sayfasının içeriği ve personel ilanlarının nasıl ayrılacağı
-  engel kalkınca incelenecek.
-- **Fixture:** Henüz yok.
+- **Ek gözlem (2026-10-19, ~25 dk sonra):** Ana sayfa tekrar açıldı (0.5 sn) ama ilan sayfası
+  (`...-4.htm`) yine 25 sn yanıtsız kaldı. `/ilanlar/` ve `/eskiler/` altındaki sayfalar,
+  ana sayfaya göre çok daha seçici engelleniyor.
+- **Karar (öneri):** **Kullanılamıyor → `config.yaml`'da `false`.** Gerekçe: (1) ilan sayfalarına
+  erişim güvenilmez; (2) ilan.gov.tr, Resmî Gazete'de yayımlanan personel ilanlarını zaten
+  içeriyor (`adTypeFilters` → "Resmî Gazete Yayım Tarihi", kaynak `DPB`/`YOK`), yani bildirim
+  kaybı beklenmiyor. Gerekirse ileride, çalışma başına 2 istekle (ana sayfa + Çeşitli İlânlar)
+  yeniden denenebilir; GitHub runner IP'lerinde davranış farklı olabilir (Aşama 6.1).
+- **Fixture:** Yok.
 
 ## yerel_yonetimler
 - **Yöntem:** HTML.

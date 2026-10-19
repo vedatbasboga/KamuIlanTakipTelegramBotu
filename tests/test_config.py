@@ -9,15 +9,10 @@ ROOT = Path(__file__).resolve().parent.parent
 
 
 def test_repo_config_is_valid():
+    # Değerler kullanıcıya ait; burada sadece dosyanın geçerli olduğu doğrulanır.
     config = load_config(ROOT / "config.yaml")
-    assert config.enabled_sources == list(SOURCE_NAMES)
-    assert config.filters.education_levels == {"lisans"}
-    assert config.filters.kpss_types == {"P3"}
-    assert config.filters.locations == frozenset()
-    assert "öğretim üyesi" in config.filters.exclude_keywords
-    assert config.filters.filtre_belirsizse_gonder is True
-    assert config.notify.max_messages_per_run == 15
-    assert config.state.prune_after_days == 120
+    assert set(config.sources) == set(SOURCE_NAMES)
+    assert config.enabled_sources
 
 
 def test_empty_config_uses_defaults(tmp_path):

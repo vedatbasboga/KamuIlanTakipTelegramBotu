@@ -1,0 +1,856 @@
+{
+  "result": {
+    "ads": [
+      {
+        "id": "2261370",
+        "idInt": 0,
+        "adNo": "DPB845523",
+        "advertiserName": "TÜRKİYE İŞ KURUMU GENEL MÜDÜRLÜĞÜ (İŞKUR)",
+        "advertiserLogo": "AdvertiserLogo\\5f5aa22f7fbe682aa4aaba8b.png",
+        "mainPhoto": "",
+        "title": "Türkiye İş Kurumu Genel Müdürlüğünden Sözleşmeli Bilişim Personeli Alım İlanı",
+        "slugifyTitle": "kamu-akademik-personel-kamu-personel-alim-ve-sinavlari-turkiye-is-kurumu-genel-mudurlugunden-sozlesmeli-bilisim-personeli-alim-ilani",
+        "addressCityName": "ANKARA",
+        "addressCountyName": null,
+        "publishStartDate": "2026-10-18T21:00:01Z",
+        "isArchived": false,
+        "urlStr": "/ilan/2261370/kamu-akademik-personel-kamu-personel-alim-ve-sinavlari-turkiye-is-kurumu-genel-mudurlugunden-sozlesmeli-bilisim-personeli-alim-ilani",
+        "values": [
+          {
+            "key": "Kategori",
+            "value": "Sözleşmeli Bilişim Personeli İstihdamı"
+          }
+        ],
+        "categories": null,
+        "adSourceName": "Devlet Personel Başkanlığı",
+        "adSourceCode": "DPB",
+        "adSourceLogoPath": "/assets/img/ilan.png",
+        "adType": null,
+        "isBikAd": true,
+        "isActiveForArchive": true,
+        "adTypeFilters": [
+          {
+            "key": "İlan Türü",
+            "value": "PERSONEL ALIMI"
+          },
+          {
+            "key": "Resmî Gazete Yayım Tarihi",
+            "value": "18.10.2026"
+          }
+        ]
+      },
+      {
+        "id": "2261344",
+        "idInt": 0,
+        "adNo": "DPB845522",
+        "advertiserName": "KIYI EMNİYETİ GENEL MÜDÜRLÜĞÜ",
+        "advertiserLogo": "AdvertiserLogo\\5f5aa2377fbe682aa4aabd4c.png",
+        "mainPhoto": "",
+        "title": "Kıyı Emniyeti Genel Müdürlüğünden Daimi İşçi Alım İlanı",
+        "slugifyTitle": "kamu-akademik-personel-kamu-personel-alim-ve-sinavlari-kiyi emniyeti genel mudurlugunden-daimi-isci-alim-ilani",
+        "addressCityName": "İSTANBUL",
+        "addressCountyName": null,
+        "publishStartDate": "2026-10-18T21:00:01Z",
+        "isArchived": false,
+        "urlStr": "/ilan/2261344/kamu-akademik-personel-kamu-personel-alim-ve-sinavlari-kiyi emniyeti genel mudurlugunden-daimi-isci-alim-ilani",
+        "values": [
+          {
+            "key": "Kategori",
+            "value": "Sürekli İşçi Alımı"
+          }
+        ],
+        "categories": null,
+        "adSourceName": "Devlet Personel Başkanlığı",
+        "adSourceCode": "DPB",
+        "adSourceLogoPath": "/assets/img/ilan.png",
+        "adType": null,
+        "isBikAd": true,
+        "isActiveForArchive": true,
+        "adTypeFilters": [
+          {
+            "key": "İlan Türü",
+            "value": "PERSONEL ALIMI"
+          },
+          {
+            "key": "Resmî Gazete Yayım Tarihi",
+            "value": "19.10.2026"
+          }
+        ]
+      },
+      {
+        "id": "2261343",
+        "idInt": 0,
+        "adNo": "DPB845521",
+        "advertiserName": "ORTA ANADOLU KALKINMA AJANSI GENEL SEKRETERLİĞİ",
+        "advertiserLogo": "AdvertiserLogo\\5f5aa2437fbe682aa4aabe58.png",
+        "mainPhoto": "",
+        "title": "Orta Anadolu Kalkınma Ajansından Personel Alım İlanı",
+        "slugifyTitle": "kamu-akademik-personel-kamu-personel-alim-ve-sinavlari-orta-anadolu-kalkinma-ajansindan-personel-alim-ilani",
+        "addressCityName": "KAYSERİ",
+        "addressCountyName": null,
+        "publishStartDate": "2026-10-18T21:00:01Z",
+        "isArchived": false,
+        "urlStr": "/ilan/2261343/kamu-akademik-personel-kamu-personel-alim-ve-sinavlari-orta-anadolu-kalkinma-ajansindan-personel-alim-ilani",
+        "values": [
+          {
+            "key": "Kategori",
+            "value": "Kalkınma Ajansları Personel Alımları"
+          }
+        ],
+        "categories": null,
+        "adSourceName": "Devlet Personel Başkanlığı",
+        "adSourceCode": "DPB",
+        "adSourceLogoPath": "/assets/img/ilan.png",
+        "adType": null,
+        "isBikAd": true,
+        "isActiveForArchive": true,
+        "adTypeFilters": [
+          {
+            "key": "İlan Türü",
+            "value": "PERSONEL ALIMI"
+          },
+          {
+            "key": "Resmî Gazete Yayım Tarihi",
+            "value": "19.10.2026"
+          }
+        ]
+      },
+      {
+        "id": "2261215",
+        "idInt": 0,
+        "adNo": "YOK853515",
+        "advertiserName": "İZMİR BAKIRÇAY ÜNİVERSİTESİ REKTÖRLÜĞÜ",
+        "advertiserLogo": "AdvertiserLogo\\5f5aa2677fbe682aa4aac530.jpg",
+        "mainPhoto": "",
+        "title": "İzmir Bakırçay Üniversitesi Rektörlüğünden Öğretim Elemanı Alım İlanı",
+        "slugifyTitle": "kamu-akademik-personel-akademik-personel-alimlari-izmir bakircay universitesi rektorlugunden-ogretim-elemani-alim-ilani",
+        "addressCityName": "İZMİR",
+        "addressCountyName": null,
+        "publishStartDate": "2026-10-18T21:00:01Z",
+        "isArchived": false,
+        "urlStr": "/ilan/2261215/kamu-akademik-personel-akademik-personel-alimlari-izmir bakircay universitesi rektorlugunden-ogretim-elemani-alim-ilani",
+        "values": [
+          {
+            "key": "Kategori",
+            "value": "Araştırma Görevlisi & Öğretim Görevlisi & Uzman"
+          }
+        ],
+        "categories": null,
+        "adSourceName": "Yüksek Öğretim Kurumu",
+        "adSourceCode": "YOK",
+        "adSourceLogoPath": "/assets/img/ilan.png",
+        "adType": null,
+        "isBikAd": true,
+        "isActiveForArchive": true,
+        "adTypeFilters": [
+          {
+            "key": "İlan Türü",
+            "value": "PERSONEL ALIMI"
+          },
+          {
+            "key": "Resmî Gazete Yayım Tarihi",
+            "value": "19.10.2026"
+          }
+        ]
+      },
+      {
+        "id": "2261214",
+        "idInt": 0,
+        "adNo": "YOK853514",
+        "advertiserName": "İZMİR BAKIRÇAY ÜNİVERSİTESİ REKTÖRLÜĞÜ",
+        "advertiserLogo": "AdvertiserLogo\\5f5aa2677fbe682aa4aac530.jpg",
+        "mainPhoto": "",
+        "title": "İzmir Bakırçay Üniversitesi Rektörlüğünden Öğretim Üyesi Alım İlanı",
+        "slugifyTitle": "kamu-akademik-personel-akademik-personel-alimlari-izmir bakircay universitesi rektorlugunden-ogretim-uyesi-alim-ilani",
+        "addressCityName": "İZMİR",
+        "addressCountyName": null,
+        "publishStartDate": "2026-10-18T21:00:01Z",
+        "isArchived": false,
+        "urlStr": "/ilan/2261214/kamu-akademik-personel-akademik-personel-alimlari-izmir bakircay universitesi rektorlugunden-ogretim-uyesi-alim-ilani",
+        "values": [
+          {
+            "key": "Kategori",
+            "value": "Öğretim Üyesi Alımları (Prof., Doç., Dr. Öğretim Üyesi)"
+          }
+        ],
+        "categories": null,
+        "adSourceName": "Yüksek Öğretim Kurumu",
+        "adSourceCode": "YOK",
+        "adSourceLogoPath": "/assets/img/ilan.png",
+        "adType": null,
+        "isBikAd": true,
+        "isActiveForArchive": true,
+        "adTypeFilters": [
+          {
+            "key": "İlan Türü",
+            "value": "PERSONEL ALIMI"
+          },
+          {
+            "key": "Resmî Gazete Yayım Tarihi",
+            "value": "19.10.2026"
+          }
+        ]
+      },
+      {
+        "id": "2261184",
+        "idInt": 0,
+        "adNo": "YOK853513",
+        "advertiserName": "İSTANBUL ESENYURT ÜNİVERSİTESİ REKTÖRLÜĞÜ",
+        "advertiserLogo": "AdvertiserLogo\\5f5aa26e7fbe682aa4aac7ba.png",
+        "mainPhoto": "",
+        "title": "İstanbul Esenyurt Üniversitesi Rektörlüğünden Öğretim Görevlisi Alım İlanı",
+        "slugifyTitle": "kamu-akademik-personel-akademik-personel-alimlari-istanbul esenyurt universitesi rektorlugunden-ogretim-gorevlisi-alim-ilani",
+        "addressCityName": "İSTANBUL",
+        "addressCountyName": null,
+        "publishStartDate": "2026-10-16T21:00:01Z",
+        "isArchived": false,
+        "urlStr": "/ilan/2261184/kamu-akademik-personel-akademik-personel-alimlari-istanbul esenyurt universitesi rektorlugunden-ogretim-gorevlisi-alim-ilani",
+        "values": [
+          {
+            "key": "Kategori",
+            "value": "Araştırma Görevlisi & Öğretim Görevlisi & Uzman"
+          }
+        ],
+        "categories": null,
+        "adSourceName": "Yüksek Öğretim Kurumu",
+        "adSourceCode": "YOK",
+        "adSourceLogoPath": "/assets/img/ilan.png",
+        "adType": null,
+        "isBikAd": true,
+        "isActiveForArchive": true,
+        "adTypeFilters": [
+          {
+            "key": "İlan Türü",
+            "value": "PERSONEL ALIMI"
+          },
+          {
+            "key": "Resmî Gazete Yayım Tarihi",
+            "value": "17.10.2026"
+          }
+        ]
+      },
+      {
+        "id": "2261176",
+        "idInt": 0,
+        "adNo": "YOK853512",
+        "advertiserName": "İSTANBUL ESENYURT ÜNİVERSİTESİ REKTÖRLÜĞÜ",
+        "advertiserLogo": "AdvertiserLogo\\5f5aa26e7fbe682aa4aac7ba.png",
+        "mainPhoto": "",
+        "title": "İstanbul Esenyurt Üniversitesi Rektörlüğünden Öğretim Üyesi Alım İlanı",
+        "slugifyTitle": "kamu-akademik-personel-akademik-personel-alimlari-istanbul esenyurt universitesi rektorlugunden-ogretim-uyesi-alim-ilani",
+        "addressCityName": "İSTANBUL",
+        "addressCountyName": null,
+        "publishStartDate": "2026-10-16T21:00:01Z",
+        "isArchived": false,
+        "urlStr": "/ilan/2261176/kamu-akademik-personel-akademik-personel-alimlari-istanbul esenyurt universitesi rektorlugunden-ogretim-uyesi-alim-ilani",
+        "values": [
+          {
+            "key": "Kategori",
+            "value": "Öğretim Üyesi Alımları (Prof., Doç., Dr. Öğretim Üyesi)"
+          }
+        ],
+        "categories": null,
+        "adSourceName": "Yüksek Öğretim Kurumu",
+        "adSourceCode": "YOK",
+        "adSourceLogoPath": "/assets/img/ilan.png",
+        "adType": null,
+        "isBikAd": true,
+        "isActiveForArchive": true,
+        "adTypeFilters": [
+          {
+            "key": "İlan Türü",
+            "value": "PERSONEL ALIMI"
+          },
+          {
+            "key": "Resmî Gazete Yayım Tarihi",
+            "value": "17.10.2026"
+          }
+        ]
+      },
+      {
+        "id": "2261015",
+        "idInt": 0,
+        "adNo": "YOK853511",
+        "advertiserName": "KIRIKKALE ÜNİVERSİTESİ REKTÖRLÜĞÜ",
+        "advertiserLogo": "AdvertiserLogo\\5f5aa22f7fbe682aa4aabad0.png",
+        "mainPhoto": "",
+        "title": "Kırıkkale Üniversitesi Öğretim Üyesi Alım İlanı",
+        "slugifyTitle": "kamu-akademik-personel-akademik-personel-alimlari-kirikkale-universitesi-ogretim-uyesi-alim-ilani",
+        "addressCityName": "KIRIKKALE",
+        "addressCountyName": null,
+        "publishStartDate": "2026-10-18T21:00:01Z",
+        "isArchived": false,
+        "urlStr": "/ilan/2261015/kamu-akademik-personel-akademik-personel-alimlari-kirikkale-universitesi-ogretim-uyesi-alim-ilani",
+        "values": [
+          {
+            "key": "Kategori",
+            "value": "Öğretim Üyesi Alımları (Prof., Doç., Dr. Öğretim Üyesi)"
+          }
+        ],
+        "categories": null,
+        "adSourceName": "Yüksek Öğretim Kurumu",
+        "adSourceCode": "YOK",
+        "adSourceLogoPath": "/assets/img/ilan.png",
+        "adType": null,
+        "isBikAd": true,
+        "isActiveForArchive": true,
+        "adTypeFilters": [
+          {
+            "key": "İlan Türü",
+            "value": "PERSONEL ALIMI"
+          },
+          {
+            "key": "Resmî Gazete Yayım Tarihi",
+            "value": "19.10.2026"
+          }
+        ]
+      },
+      {
+        "id": "2261004",
+        "idInt": 0,
+        "adNo": "DPB845520",
+        "advertiserName": "KAMU GÖZETİMİ, MUHASEBE VE DENETİM STANDARTLARI KURUMU",
+        "advertiserLogo": "AdvertiserLogo\\5f5aa24b7fbe682aa4aabfbe.png",
+        "mainPhoto": "",
+        "title": "Kamu Gözetimi, Muhasebe ve Denetim Standartları Kurumu Uzman Yardımcılığı Giriş Sınav İlanı",
+        "slugifyTitle": "kamu-akademik-personel-kamu-personel-alim-ve-sinavlari-kamu-gozetimi-muhasebe-ve-denetim-standartlari-kurumu-uzman-yardimciligi-giris-sinav-ilani",
+        "addressCityName": "ANKARA",
+        "addressCountyName": null,
+        "publishStartDate": "2026-10-18T21:00:01Z",
+        "isArchived": false,
+        "urlStr": "/ilan/2261004/kamu-akademik-personel-kamu-personel-alim-ve-sinavlari-kamu-gozetimi-muhasebe-ve-denetim-standartlari-kurumu-uzman-yardimciligi-giris-sinav-ilani",
+        "values": [
+          {
+            "key": "Kategori",
+            "value": "KPSS B ve Mahalli İdareler Kadro Alımları"
+          }
+        ],
+        "categories": null,
+        "adSourceName": "Devlet Personel Başkanlığı",
+        "adSourceCode": "DPB",
+        "adSourceLogoPath": "/assets/img/ilan.png",
+        "adType": null,
+        "isBikAd": true,
+        "isActiveForArchive": true,
+        "adTypeFilters": [
+          {
+            "key": "İlan Türü",
+            "value": "PERSONEL ALIMI"
+          },
+          {
+            "key": "Resmî Gazete Yayım Tarihi",
+            "value": "19.10.2026"
+          }
+        ]
+      },
+      {
+        "id": "2259136",
+        "idInt": 0,
+        "adNo": "ILN02572431",
+        "advertiserName": "DSİ GENEL MÜDÜRLÜĞÜ YERALTISULARI DAİRESİ BAŞKANLIĞI",
+        "advertiserLogo": "AdvertiserLogo\\5f5aa2457fbe682aa4aabe97.png",
+        "mainPhoto": "",
+        "title": "Sondör Belgesi Sınav İlanı",
+        "slugifyTitle": "kamu-akademik-personel-kamu-personel-alim-ve-sinavlari-sondor-belgesi-sinav-ilani",
+        "addressCityName": "ANKARA",
+        "addressCountyName": "Çankaya",
+        "publishStartDate": "2026-10-18T21:00:01Z",
+        "isArchived": false,
+        "urlStr": "/ilan/2259136/kamu-akademik-personel-kamu-personel-alim-ve-sinavlari-sondor-belgesi-sinav-ilani",
+        "values": [
+          {
+            "key": "Kategori",
+            "value": "Sertifikasyon, Resertifikasyon, Lisanslama Sınavları"
+          }
+        ],
+        "categories": null,
+        "adSourceName": "Basın İlan Kurumu",
+        "adSourceCode": "ILN",
+        "adSourceLogoPath": "/assets/img/ilan.png",
+        "adType": null,
+        "isBikAd": true,
+        "isActiveForArchive": true,
+        "adTypeFilters": [
+          {
+            "key": "İlan Türü",
+            "value": "PERSONEL ALIMI"
+          },
+          {
+            "key": "Son başvuru Tarihi",
+            "value": "09.11.2026"
+          }
+        ]
+      },
+      {
+        "id": "2260973",
+        "idInt": 0,
+        "adNo": "YOK853510",
+        "advertiserName": "İZMİR KONAK MESLEK YÜKSEKOKULU MÜDÜRLÜĞÜ",
+        "advertiserLogo": "AdvertiserLogo\\69ca1c1546bcc257a887e944.jpg",
+        "mainPhoto": "",
+        "title": "Konak Meslek Yüksekokulu Müdürlüğü Öğretim Elemanı Alım İlanı",
+        "slugifyTitle": "kamu-akademik-personel-akademik-personel-alimlari-konak-meslek-yuksekokulu-mudurlugu-ogretim-elemani-alim-ilani",
+        "addressCityName": "İZMİR",
+        "addressCountyName": null,
+        "publishStartDate": "2026-10-18T21:00:01Z",
+        "isArchived": false,
+        "urlStr": "/ilan/2260973/kamu-akademik-personel-akademik-personel-alimlari-konak-meslek-yuksekokulu-mudurlugu-ogretim-elemani-alim-ilani",
+        "values": [
+          {
+            "key": "Kategori",
+            "value": "Araştırma Görevlisi & Öğretim Görevlisi & Uzman"
+          }
+        ],
+        "categories": null,
+        "adSourceName": "Yüksek Öğretim Kurumu",
+        "adSourceCode": "YOK",
+        "adSourceLogoPath": "/assets/img/ilan.png",
+        "adType": null,
+        "isBikAd": true,
+        "isActiveForArchive": true,
+        "adTypeFilters": [
+          {
+            "key": "İlan Türü",
+            "value": "PERSONEL ALIMI"
+          },
+          {
+            "key": "Resmî Gazete Yayım Tarihi",
+            "value": "19.10.2026"
+          }
+        ]
+      },
+      {
+        "id": "2260966",
+        "idInt": 0,
+        "adNo": "YOK853509",
+        "advertiserName": "DİCLE ÜNİVERSİTESİ REKTÖRLÜĞÜ",
+        "advertiserLogo": "AdvertiserLogo\\5f5aa2457fbe682aa4aabe9d.png",
+        "mainPhoto": "",
+        "title": "Dicle Üniversitesi Öğretim Elemanı Alım İlanı",
+        "slugifyTitle": "kamu-akademik-personel-akademik-personel-alimlari-dicle-universitesi-ogretim-elemani-alim-ilani",
+        "addressCityName": "DİYARBAKIR",
+        "addressCountyName": null,
+        "publishStartDate": "2026-10-18T21:00:01Z",
+        "isArchived": false,
+        "urlStr": "/ilan/2260966/kamu-akademik-personel-akademik-personel-alimlari-dicle-universitesi-ogretim-elemani-alim-ilani",
+        "values": [
+          {
+            "key": "Kategori",
+            "value": "Araştırma Görevlisi & Öğretim Görevlisi & Uzman"
+          }
+        ],
+        "categories": null,
+        "adSourceName": "Yüksek Öğretim Kurumu",
+        "adSourceCode": "YOK",
+        "adSourceLogoPath": "/assets/img/ilan.png",
+        "adType": null,
+        "isBikAd": true,
+        "isActiveForArchive": true,
+        "adTypeFilters": [
+          {
+            "key": "İlan Türü",
+            "value": "PERSONEL ALIMI"
+          },
+          {
+            "key": "Resmî Gazete Yayım Tarihi",
+            "value": "19.10.2026"
+          }
+        ]
+      },
+      {
+        "id": "2260956",
+        "idInt": 0,
+        "adNo": "YOK853508",
+        "advertiserName": "KOÇ ÜNİVERSİTESİ REKTÖRLÜĞÜ",
+        "advertiserLogo": "AdvertiserLogo\\5f5aa2717fbe682aa4aac89c.png",
+        "mainPhoto": "",
+        "title": "Koç Üniversitesi Rektörlüğü Öğretim Üyesi Alım İlanı",
+        "slugifyTitle": "kamu-akademik-personel-akademik-personel-alimlari-koc-universitesi-rektorlugu-ogretim-uyesi-alim-ilani",
+        "addressCityName": "İSTANBUL",
+        "addressCountyName": null,
+        "publishStartDate": "2026-10-18T21:00:01Z",
+        "isArchived": false,
+        "urlStr": "/ilan/2260956/kamu-akademik-personel-akademik-personel-alimlari-koc-universitesi-rektorlugu-ogretim-uyesi-alim-ilani",
+        "values": [
+          {
+            "key": "Kategori",
+            "value": "Öğretim Üyesi Alımları (Prof., Doç., Dr. Öğretim Üyesi)"
+          }
+        ],
+        "categories": null,
+        "adSourceName": "Yüksek Öğretim Kurumu",
+        "adSourceCode": "YOK",
+        "adSourceLogoPath": "/assets/img/ilan.png",
+        "adType": null,
+        "isBikAd": true,
+        "isActiveForArchive": true,
+        "adTypeFilters": [
+          {
+            "key": "İlan Türü",
+            "value": "PERSONEL ALIMI"
+          },
+          {
+            "key": "Resmî Gazete Yayım Tarihi",
+            "value": "19.10.2026"
+          }
+        ]
+      },
+      {
+        "id": "2260944",
+        "idInt": 0,
+        "adNo": "YOK853507",
+        "advertiserName": "İZMİR EKONOMİ ÜNİVERSİTESİ REKTÖRLÜĞÜ",
+        "advertiserLogo": "AdvertiserLogo\\5f5aa2517fbe682aa4aac037.png",
+        "mainPhoto": "",
+        "title": "Ekonomi Üniversitesi Rektörlüğü Öğretim Elemanı Alım İlanı",
+        "slugifyTitle": "kamu-akademik-personel-akademik-personel-alimlari-ekonomi-universitesi-rektorlugu-ogretim-elemani-alim-ilani",
+        "addressCityName": "İZMİR",
+        "addressCountyName": null,
+        "publishStartDate": "2026-10-18T21:00:01Z",
+        "isArchived": false,
+        "urlStr": "/ilan/2260944/kamu-akademik-personel-akademik-personel-alimlari-ekonomi-universitesi-rektorlugu-ogretim-elemani-alim-ilani",
+        "values": [
+          {
+            "key": "Kategori",
+            "value": "Araştırma Görevlisi & Öğretim Görevlisi & Uzman"
+          }
+        ],
+        "categories": null,
+        "adSourceName": "Yüksek Öğretim Kurumu",
+        "adSourceCode": "YOK",
+        "adSourceLogoPath": "/assets/img/ilan.png",
+        "adType": null,
+        "isBikAd": true,
+        "isActiveForArchive": true,
+        "adTypeFilters": [
+          {
+            "key": "İlan Türü",
+            "value": "PERSONEL ALIMI"
+          },
+          {
+            "key": "Resmî Gazete Yayım Tarihi",
+            "value": "19.10.2026"
+          }
+        ]
+      },
+      {
+        "id": "2260916",
+        "idInt": 0,
+        "adNo": "YOK853506",
+        "advertiserName": "KARABAĞLAR BELEDİYE BAŞKANLIĞI",
+        "advertiserLogo": "AdvertiserLogo\\5f5aa22c7fbe682aa4aab909.png",
+        "mainPhoto": "",
+        "title": "İzmir İli Karabağlar Belediye Başkanlığı Sözleşmeli Personel Alım İlanı",
+        "slugifyTitle": "kamu-akademik-personel-kamu-personel-alim-ve-sinavlari-izmir-ili-karabaglar-belediye-baskanligi-sozlesmeli-personel-alim-ilani",
+        "addressCityName": "İZMİR",
+        "addressCountyName": null,
+        "publishStartDate": "2026-10-17T21:00:01Z",
+        "isArchived": false,
+        "urlStr": "/ilan/2260916/kamu-akademik-personel-kamu-personel-alim-ve-sinavlari-izmir-ili-karabaglar-belediye-baskanligi-sozlesmeli-personel-alim-ilani",
+        "values": [
+          {
+            "key": "Kategori",
+            "value": "Sözleşmeli Personel ve 4/B Alımları"
+          }
+        ],
+        "categories": null,
+        "adSourceName": "Yüksek Öğretim Kurumu",
+        "adSourceCode": "YOK",
+        "adSourceLogoPath": "/assets/img/ilan.png",
+        "adType": null,
+        "isBikAd": true,
+        "isActiveForArchive": true,
+        "adTypeFilters": [
+          {
+            "key": "İlan Türü",
+            "value": "PERSONEL ALIMI"
+          },
+          {
+            "key": "Resmî Gazete Yayım Tarihi",
+            "value": "18.10.2026"
+          }
+        ]
+      },
+      {
+        "id": "2260904",
+        "idInt": 0,
+        "adNo": "YOK853505",
+        "advertiserName": "İZMİR EKONOMİ ÜNİVERSİTESİ REKTÖRLÜĞÜ",
+        "advertiserLogo": "AdvertiserLogo\\5f5aa2517fbe682aa4aac037.png",
+        "mainPhoto": "",
+        "title": "Ekonomi Üniversitesi Rektörlüğü Öğretim Üyesi Alım İlanı",
+        "slugifyTitle": "kamu-akademik-personel-akademik-personel-alimlari-ekonomi-universitesi-rektorlugu-ogretim-uyesi-alim-ilani",
+        "addressCityName": "İZMİR",
+        "addressCountyName": null,
+        "publishStartDate": "2026-10-18T21:00:01Z",
+        "isArchived": false,
+        "urlStr": "/ilan/2260904/kamu-akademik-personel-akademik-personel-alimlari-ekonomi-universitesi-rektorlugu-ogretim-uyesi-alim-ilani",
+        "values": [
+          {
+            "key": "Kategori",
+            "value": "Öğretim Üyesi Alımları (Prof., Doç., Dr. Öğretim Üyesi)"
+          }
+        ],
+        "categories": null,
+        "adSourceName": "Yüksek Öğretim Kurumu",
+        "adSourceCode": "YOK",
+        "adSourceLogoPath": "/assets/img/ilan.png",
+        "adType": null,
+        "isBikAd": true,
+        "isActiveForArchive": true,
+        "adTypeFilters": [
+          {
+            "key": "İlan Türü",
+            "value": "PERSONEL ALIMI"
+          },
+          {
+            "key": "Resmî Gazete Yayım Tarihi",
+            "value": "19.10.2026"
+          }
+        ]
+      },
+      {
+        "id": "2260900",
+        "idInt": 0,
+        "adNo": "YOK853504",
+        "advertiserName": "ADANA ALPARSLAN TÜRKEŞ BİLİM VE TEKNOLOJİ ÜNİVERSİTESİ REKTÖRLÜĞÜ",
+        "advertiserLogo": "AdvertiserLogo\\5f5aa2487fbe682aa4aabf66.png",
+        "mainPhoto": "",
+        "title": "Alparslan Türkeş Bilim ve Teknoloji Üniversitesi Rektörlüğü Öğretim Üyesi Alım İlanı",
+        "slugifyTitle": "kamu-akademik-personel-akademik-personel-alimlari-alparslan-turkes-bilim-ve-teknoloji-universitesi-rektorlugu-ogretim-uyesi-alim-ilani",
+        "addressCityName": "ADANA",
+        "addressCountyName": null,
+        "publishStartDate": "2026-10-17T21:00:01Z",
+        "isArchived": false,
+        "urlStr": "/ilan/2260900/kamu-akademik-personel-akademik-personel-alimlari-alparslan-turkes-bilim-ve-teknoloji-universitesi-rektorlugu-ogretim-uyesi-alim-ilani",
+        "values": [
+          {
+            "key": "Kategori",
+            "value": "Öğretim Üyesi Alımları (Prof., Doç., Dr. Öğretim Üyesi)"
+          }
+        ],
+        "categories": null,
+        "adSourceName": "Yüksek Öğretim Kurumu",
+        "adSourceCode": "YOK",
+        "adSourceLogoPath": "/assets/img/ilan.png",
+        "adType": null,
+        "isBikAd": true,
+        "isActiveForArchive": true,
+        "adTypeFilters": [
+          {
+            "key": "İlan Türü",
+            "value": "PERSONEL ALIMI"
+          },
+          {
+            "key": "Resmî Gazete Yayım Tarihi",
+            "value": "18.10.2026"
+          }
+        ]
+      },
+      {
+        "id": "2260891",
+        "idInt": 0,
+        "adNo": "YOK853503",
+        "advertiserName": "BURSA ULUDAĞ ÜNİVERSİTESİ REKTÖRLÜĞÜ",
+        "advertiserLogo": "AdvertiserLogo\\5f5aa2307fbe682aa4aabb0a.png",
+        "mainPhoto": "",
+        "title": "Bursa Uludağ Üniversitesi (Düzeltme İlanı)",
+        "slugifyTitle": "kamu-akademik-personel-akademik-personel-alimlari-bursa-uludag-universitesi-duzeltme-ilani-",
+        "addressCityName": "BURSA",
+        "addressCountyName": null,
+        "publishStartDate": "2026-10-16T21:00:01Z",
+        "isArchived": false,
+        "urlStr": "/ilan/2260891/kamu-akademik-personel-akademik-personel-alimlari-bursa-uludag-universitesi-duzeltme-ilani-",
+        "values": [
+          {
+            "key": "Kategori",
+            "value": "Öğretim Üyesi Alımları (Prof., Doç., Dr. Öğretim Üyesi)"
+          }
+        ],
+        "categories": null,
+        "adSourceName": "Yüksek Öğretim Kurumu",
+        "adSourceCode": "YOK",
+        "adSourceLogoPath": "/assets/img/ilan.png",
+        "adType": null,
+        "isBikAd": true,
+        "isActiveForArchive": true,
+        "adTypeFilters": [
+          {
+            "key": "İlan Türü",
+            "value": "PERSONEL ALIMI"
+          },
+          {
+            "key": "Resmî Gazete Yayım Tarihi",
+            "value": "17.10.2026"
+          }
+        ]
+      },
+      {
+        "id": "2259316",
+        "idInt": 0,
+        "adNo": "YOK853502",
+        "advertiserName": "İSTANBUL GEDİK ÜNİVERSİTESİ REKTÖRLÜĞÜ",
+        "advertiserLogo": "AdvertiserLogo\\5f5aa26b7fbe682aa4aac66b.png",
+        "mainPhoto": "",
+        "title": "İstanbul Gedik Üniversitesi Öğretim Elemanı Alım İlanı",
+        "slugifyTitle": "kamu-akademik-personel-akademik-personel-alimlari-istanbul-gedik-universitesi-ogretim-elemani-alim-ilani",
+        "addressCityName": "İSTANBUL",
+        "addressCountyName": null,
+        "publishStartDate": "2026-10-15T21:00:01Z",
+        "isArchived": false,
+        "urlStr": "/ilan/2259316/kamu-akademik-personel-akademik-personel-alimlari-istanbul-gedik-universitesi-ogretim-elemani-alim-ilani",
+        "values": [
+          {
+            "key": "Kategori",
+            "value": "Araştırma Görevlisi & Öğretim Görevlisi & Uzman"
+          }
+        ],
+        "categories": null,
+        "adSourceName": "Yüksek Öğretim Kurumu",
+        "adSourceCode": "YOK",
+        "adSourceLogoPath": "/assets/img/ilan.png",
+        "adType": null,
+        "isBikAd": true,
+        "isActiveForArchive": true,
+        "adTypeFilters": [
+          {
+            "key": "İlan Türü",
+            "value": "PERSONEL ALIMI"
+          },
+          {
+            "key": "Resmî Gazete Yayım Tarihi",
+            "value": "16.10.2026"
+          }
+        ]
+      },
+      {
+        "id": "2259262",
+        "idInt": 0,
+        "adNo": "YOK853501",
+        "advertiserName": "İSTANBUL GEDİK ÜNİVERSİTESİ REKTÖRLÜĞÜ",
+        "advertiserLogo": "AdvertiserLogo\\5f5aa26b7fbe682aa4aac66b.png",
+        "mainPhoto": "",
+        "title": "İstanbul Gedik Üniversitesi Öğretim Elemanı Alım İlanı",
+        "slugifyTitle": "kamu-akademik-personel-akademik-personel-alimlari-istanbul-gedik-universitesi-ogretim-elemani-alim-ilani",
+        "addressCityName": "İSTANBUL",
+        "addressCountyName": null,
+        "publishStartDate": "2026-10-15T21:00:01Z",
+        "isArchived": false,
+        "urlStr": "/ilan/2259262/kamu-akademik-personel-akademik-personel-alimlari-istanbul-gedik-universitesi-ogretim-elemani-alim-ilani",
+        "values": [
+          {
+            "key": "Kategori",
+            "value": "Araştırma Görevlisi & Öğretim Görevlisi & Uzman"
+          }
+        ],
+        "categories": null,
+        "adSourceName": "Yüksek Öğretim Kurumu",
+        "adSourceCode": "YOK",
+        "adSourceLogoPath": "/assets/img/ilan.png",
+        "adType": null,
+        "isBikAd": true,
+        "isActiveForArchive": true,
+        "adTypeFilters": [
+          {
+            "key": "İlan Türü",
+            "value": "PERSONEL ALIMI"
+          },
+          {
+            "key": "Resmî Gazete Yayım Tarihi",
+            "value": "16.10.2026"
+          }
+        ]
+      }
+    ],
+    "categories": [
+      {
+        "taxId": 8,
+        "setId": 62,
+        "name": "Kamu-Akademik Personel",
+        "slug": "Kamu-Akademik Personel",
+        "count": 134,
+        "orderNo": 15,
+        "homePageOrderNo": 3,
+        "level": 0,
+        "isActiveForArchive": true,
+        "children": [
+          {
+            "taxId": 44,
+            "setId": 82,
+            "name": "Kamu Personel Alım ve Sınavları",
+            "slug": "Kamu Personel Alım ve Sınavları",
+            "count": 72,
+            "orderNo": 10,
+            "homePageOrderNo": 99,
+            "level": 0,
+            "isActiveForArchive": true,
+            "children": null
+          },
+          {
+            "taxId": 73,
+            "setId": 108,
+            "name": "Akademik Personel Alımları",
+            "slug": "Akademik Personel Alımları",
+            "count": 62,
+            "orderNo": 20,
+            "homePageOrderNo": 99,
+            "level": 0,
+            "isActiveForArchive": true,
+            "children": null
+          }
+        ]
+      }
+    ],
+    "cityCounts": [
+      {
+        "id": 10,
+        "key": "ADANA",
+        "displayName": null,
+        "slug": "ADANA",
+        "plateNumber": null,
+        "count": 2,
+        "stats": null,
+        "orderNo": 0,
+        "statType": null,
+        "logoPath": null,
+        "iconFullPath": null
+      },
+      {
+        "id": 13,
+        "key": "AĞRI",
+        "displayName": null,
+        "slug": "AĞRI",
+        "plateNumber": null,
+        "count": 1,
+        "stats": null,
+        "orderNo": 0,
+        "statType": null,
+        "logoPath": null,
+        "iconFullPath": null
+      },
+      {
+        "id": 14,
+        "key": "AKSARAY",
+        "displayName": null,
+        "slug": "AKSARAY",
+        "plateNumber": null,
+        "count": 1,
+        "stats": null,
+        "orderNo": 0,
+        "statType": null,
+        "logoPath": null,
+        "iconFullPath": null
+      }
+    ],
+    "yearCounts": null,
+    "numFound": 134,
+    "advertiserInfo": null,
+    "adSourceInfo": null,
+    "publisherInfo": null
+  },
+  "targetUrl": null,
+  "success": true,
+  "error": null,
+  "unAuthorizedRequest": false,
+  "__abp": true
+}
