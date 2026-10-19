@@ -35,8 +35,19 @@
 ### Kabul kriterleri
 - [x] Erişim testi sonuçları `docs/kaynaklar.md`'ye işlendi.
 - [ ] Ana workflow'lar en az 3 zamanlanmış çalışmayı hatasız tamamladı; state commit'leri repoda.
-- [ ] Test workflow'u yeşil.
-- [ ] 🧑 Gerçek bir yeni ilan bildirimi telefona geldi.
+      (Manuel çalışmalar başarılı ve state commit'leri repoda: `state (bilgisayar)`,
+      `state: 2026-10-19T11:44:03Z`. Zamanlanmış çalışmalar bekleniyor.)
+- [x] Test workflow'u yeşil.
+- [x] 🧑 Gerçek bir yeni ilan bildirimi geldi: Malatya Doğanyol Belediyesi (yerel_yonetimler,
+      self-hosted runner üzerinden), 2026-10-19 14:42.
+
+### Notlar
+- 🧑 Self-hosted runner kuruldu: `C:ctions-runner`, servis değil; Başlangıç klasöründe
+  `run.cmd` kısayolu (her oturum açılışında başlar).
+- 🧑 Kullanıcı "Kamu İlan Takip" Telegram kanalını açtı; `TELEGRAM_CHAT_ID` secret'ı kanala
+  çevrildi. Sağlık uyarıları da kanala gidiyor (Aşama 7'de ayrı yönetici sohbeti önerilir).
+- Repo herkese açık → Actions dakikaları ücretsiz/sınırsız; `state*.json` herkese görünür
+  (sadece ilan anahtarları ve zaman damgaları, sır yok).
 
 ## Aşama 5 — Filtre, dedup, orkestrasyon
 
