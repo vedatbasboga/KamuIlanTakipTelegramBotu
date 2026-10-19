@@ -13,7 +13,7 @@ from . import __version__
 
 log = logging.getLogger(__name__)
 
-USER_AGENT = f"KamuIlanBot/{__version__} (+https://github.com/vedatbasboga/GetJobPosting)"
+USER_AGENT = f"KamuIlanBot/{__version__} (+https://github.com/vedatbasboga/KamuIlanTakipTelegramBotu)"
 TIMEOUT_SECONDS = 20.0
 RETRY_DELAYS = (1.0, 3.0)  # en fazla 2 retry
 
