@@ -4,7 +4,7 @@
 |---|---|
 | 1 — İskelet ve altyapı | ✅ Tamamlandı (2026-10-19) |
 | 2 — Telegram bildirimi | ✅ Tamamlandı (2026-10-19) |
-| 3 — Kaynak keşfi | 🟡 Kullanıcı incelemesi bekleniyor |
+| 3 — Kaynak keşfi | ✅ Tamamlandı (2026-10-19) |
 | 4 — Parser'lar | ⏳ Bekliyor |
 | 5 — Filtre, dedup, orkestrasyon | ⏳ Bekliyor |
 | 6 — GitHub Actions | ⏳ Bekliyor |
@@ -30,15 +30,16 @@
 - [x] `docs/kaynaklar.md`'de 6 kaynağın hepsi için bölüm var.
 - [x] Kullanılabilir her kaynağın fixture'ı repoda.
 - [x] Sorunlu kaynak (`resmi_gazete`) `config.yaml`'da `false` ve burada not edildi.
-- [ ] 🧑 Kullanıcı `docs/kaynaklar.md`'yi gözden geçirdi.
+- [x] 🧑 Kullanıcı kaynak kararlarını verdi (2026-10-19).
 
-### Açık sorular (kullanıcı kararı)
-1. `kamuilan_sbb` kararlı ID vermiyor → kurum+başlık+yayın tarihinden bileşik anahtar
-   (CLAUDE.md kural 5'ten sapma). Onay?
-2. `kamuilan_sbb` kategori etiketi için ek POST'lar (≈6 istek, ~1.7 MB) yapılsın mı?
-3. `iskur` çalışma başına ~18 istek / ~10 MB ve içeriği büyük ölçüde kamuilan ile örtüşüyor.
-   Açık kalsın mı?
-4. `resmi_gazete` kapalı kalsın mı?
+### Kullanıcı kararları (2026-10-19)
+1. `kamuilan_sbb`: **Bileşik ID** — `sha1(logoId | yayın tarihi | kurum | başlık)[:16]`
+   (CLAUDE.md kural 5'ten bilinçli sapma; başlık düzeltilirse ilan bir kez daha bildirilir).
+2. `kamuilan_sbb`: **Kategori POST'u yok**, tek `GET /`. Öğretim üyesi/işçi ilanları
+   `exclude_keywords` ile başlıktan elenir.
+3. `iskur`: **Açık, seyrek** — en fazla 3 saatte bir taranır (kaynak bazında asgari aralık;
+   Aşama 4/5'te `last_success`'e göre uygulanacak).
+4. `resmi_gazete`: **Kapalı kalsın** (içerik ilan.gov.tr'de).
 
 ### Bilinen sorunlar
 - ilan.gov.tr sunucu sertifikası 2026-11-29'da bitiyor; yenilenince ara sertifika değişebilir.
