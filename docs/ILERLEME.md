@@ -3,7 +3,7 @@
 | Aşama | Durum |
 |---|---|
 | 1 — İskelet ve altyapı | ✅ Tamamlandı (2026-10-19) |
-| 2 — Telegram bildirimi | ⏳ Bekliyor |
+| 2 — Telegram bildirimi | ✅ Tamamlandı (2026-10-19) |
 | 3 — Kaynak keşfi | ⏳ Bekliyor |
 | 4 — Parser'lar | ⏳ Bekliyor |
 | 5 — Filtre, dedup, orkestrasyon | ⏳ Bekliyor |
@@ -11,6 +11,31 @@
 | 7 — Sağlamlaştırma (opsiyonel) | ⏳ Bekliyor |
 
 ---
+
+## Aşama 2 — Telegram bildirimi
+
+### Tamamlananlar
+- 🧑 Bot oluşturuldu: **@kamuilan_takip_bot**. Token ve chat_id yerelde `.env`'de (git'e girmez).
+- `notifier.py`:
+  - `TelegramNotifier.send()`: `sendMessage` (HTML, link önizlemesiz), 429'da `retry_after` kadar
+    bekleyip bir kez yeniden deneme, mesajlar arası ~1 sn bekleme, 4096 karakter bölme.
+  - `format_ilan()` / `format_digest()` saf fonksiyonlar. Boş alanlar gösterilmez; son başvuruya
+    ≤3 gün kala `⚠️`; "bugün/yarın son gün", "süresi doldu" ifadeleri; 3'ten fazla il "+N il".
+    `also_in` parametresi Aşama 5'teki "ayrıca: ilan.gov.tr" notu için hazır.
+  - Token maskeleme: httpx logger'ına filtre + hata mesajlarında `bot***`.
+  - `notifier_from_env()`: eksik ortam değişkeninde anlaşılır hata.
+- `__main__.py`: Bağımlılıksız `.env` okuyucu (ortamdaki değeri ezmez), `--test-telegram`.
+- `sources.DISPLAY_NAMES`: mesajlarda görünen kaynak adları.
+- `tests/test_notifier.py` (24 test): format, eşikler, HTML escape, digest gruplama, bölme,
+  429 retry, aralık bekleme, token'ın loglarda olmaması (caplog), `.env` okuma.
+
+### Kabul kriterleri
+- [x] `pytest -q` yeşil (114 passed), `ruff` temiz.
+- [x] 🧑 Kullanıcı `--test-telegram` ile iki mesajın telefonuna geldiğini onayladı (2026-10-19).
+- [x] Token hiçbir dosyada/commit'te yok (`git grep` ile tüm geçmiş tarandı, `.env` ignore'da).
+
+### Notlar
+- Token BotFather ekran görüntüsünde sohbette görüldü; kullanıcıya yenilemesi (Revoke) önerildi.
 
 ## Aşama 1 — İskelet ve altyapı
 
