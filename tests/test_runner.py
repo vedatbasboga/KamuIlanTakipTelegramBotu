@@ -313,3 +313,89 @@ def test_runner_flag_selects_group(tmp_path, monkeypatch, caplog):
     assert cli.main(args) == 0
     assert "[kamuilan_sbb]" in caplog.text and "[ilan_gov]" not in caplog.text
     assert cli.main(["--runner", "yok", "--config", str(cfg), "--state", str(state_path)]) == 2
+
+
+# --- yönetici kanalı ve haftalık rapor -------------------------------------------------------
+
+
+def test_health_messages_go_to_admin(client):
+    src = FakeSource("iskur", error=RuntimeError("x"))
+    state = bootstrapped("iskur")
+    state.sources["iskur"].consecutive_failures = runner.FAILURE_WARN_THRESHOLD - 1
+    channel, admin = FakeDeliver(), FakeDeliver()
+    runner.run([src], config(), state, client, channel, now=NOW, admin_deliver=admin)
+    assert channel.messages == []
+    assert len(admin.messages) == 1 and admin.messages[0].startswith("⚠️")
+
+    src.error, src.items = None, [ilan("iskur", "1", "Yeni")]
+    runner.run([src], config(), state, client, channel, now=NOW, admin_deliver=admin)
+    assert any("tekrar çalışıyor" in m for m in admin.messages)
+    assert len(channel.messages) == 1 and "Yeni" in channel.messages[0]  # ilan kanala
+
+
+SUNDAY_EVENING = NOW.replace(day=25, hour=20, minute=22)  # 2026-10-25 Pazar
+
+
+@pytest.mark.parametrize(
+    ("last", "now", "due"),
+    [
+        (None, SUNDAY_EVENING, True),
+        (None, SUNDAY_EVENING.replace(hour=19), False),
+        (None, NOW, False),  # Pazartesi
+        ((SUNDAY_EVENING - timedelta(days=7)).isoformat(), SUNDAY_EVENING, True),
+        ((SUNDAY_EVENING - timedelta(hours=1)).isoformat(), SUNDAY_EVENING, False),
+        ((NOW - timedelta(days=9)).isoformat(), NOW, True),  # Pazar kaçırıldı
+    ],
+)
+def test_heartbeat_due(last, now, due):
+    assert runner.heartbeat_due(last, now) is due
+
+
+def test_heartbeat_sent_once_with_stats(client):
+    src = FakeSource("kamuilan_sbb", [ilan("kamuilan_sbb", "1")])
+    state = bootstrapped("kamuilan_sbb")
+    channel, admin = FakeDeliver(), FakeDeliver()
+    kw = dict(admin_deliver=admin, label="local")
+    runner.run([src], config(), state, client, channel, now=NOW, **kw)  # Pazartesi: rapor yok
+    assert admin.messages == []
+    assert state.stats.scanned == 1 and state.stats.sent == 1
+
+    src.items.append(ilan("kamuilan_sbb", "2"))
+    runner.run([src], config(), state, client, channel, now=SUNDAY_EVENING, **kw)
+    assert len(admin.messages) == 1
+    report = admin.messages[0]
+    assert "💚" in report and "(bilgisayar)" in report
+    assert "3 ilan tarandı, 2 bildirim" in report
+    assert "✅ kamuilan.sbb.gov.tr" in report
+    assert state.stats.scanned == 0 and state.last_heartbeat
+
+    later = SUNDAY_EVENING + timedelta(minutes=30)
+    runner.run([src], config(), state, client, channel, now=later, **kw)
+    assert len(admin.messages) == 1  # aynı akşam tekrar yok
+
+
+def test_heartbeat_retried_if_delivery_fails(client):
+    src = FakeSource("kamuilan_sbb", [])
+    state = bootstrapped("kamuilan_sbb")
+    runner.run(
+        [src],
+        config(),
+        state,
+        client,
+        FakeDeliver(),
+        now=SUNDAY_EVENING,
+        admin_deliver=FakeDeliver(ok=False),
+    )
+    assert state.last_heartbeat is None
+
+
+def test_stats_persist(tmp_path):
+    state = State()
+    state.stats.scanned, state.stats.sent = 1284, 9
+    save_state(tmp_path / "s.json", state)
+    loaded = load_state(tmp_path / "s.json")
+    assert (loaded.stats.scanned, loaded.stats.sent) == (1284, 9)
+
+
+def test_thousands_separator():
+    assert runner._thousands(1284) == "1.284"

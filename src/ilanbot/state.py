@@ -37,10 +37,23 @@ class SourceHealth:
 
 
 @dataclass
+class Stats:
+    """Son haftalık rapordan bu yana sayaçlar."""
+
+    scanned: int = 0
+    sent: int = 0
+
+    @classmethod
+    def from_dict(cls, data: dict[str, Any]) -> Stats:
+        return cls(**{k: v for k, v in data.items() if k in cls.__dataclass_fields__})
+
+
+@dataclass
 class State:
     seen: dict[str, str] = field(default_factory=dict)  # ilan.key → ISO 8601 zaman
     sources: dict[str, SourceHealth] = field(default_factory=dict)
     last_heartbeat: str | None = None
+    stats: Stats = field(default_factory=Stats)
     # Bu sürümün tanımadığı üst düzey anahtarlar; kaybolmasın diye aynen geri yazılır.
     extra: dict[str, Any] = field(default_factory=dict)
 
@@ -58,6 +71,7 @@ class State:
             "seen": dict(self.seen),
             "sources": {name: asdict(h) for name, h in self.sources.items()},
             "last_heartbeat": self.last_heartbeat,
+            "stats": asdict(self.stats),
         }
 
     @classmethod
@@ -68,7 +82,7 @@ class State:
         extra = {
             k: v
             for k, v in data.items()
-            if k not in {"version", "seen", "sources", "last_heartbeat"}
+            if k not in {"version", "seen", "sources", "last_heartbeat", "stats"}
         }
         return cls(
             seen=dict(data.get("seen") or {}),
@@ -76,6 +90,7 @@ class State:
                 name: SourceHealth.from_dict(h) for name, h in (data.get("sources") or {}).items()
             },
             last_heartbeat=data.get("last_heartbeat"),
+            stats=Stats.from_dict(data.get("stats") or {}),
             extra=extra,
         )
 

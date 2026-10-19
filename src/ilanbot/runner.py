@@ -71,10 +71,21 @@ def run(
     client: httpx.Client,
     deliver: Deliver,
     now: datetime | None = None,
+    *,
+    admin_deliver: Deliver | None = None,
+    label: str | None = None,
 ) -> RunSummary:
+    """Bir çalışma turu.
+
+    `deliver` ilan bildirimlerini (kanal), `admin_deliver` bakım mesajlarını (sağlık uyarısı,
+    haftalık rapor) gönderir; verilmezse bakım mesajları da `deliver`'a gider. `label` haftalık
+    raporda hangi ortamın (ör. "github", "local") konuştuğunu belirtir.
+    """
     now = now or _now()
+    admin = admin_deliver or deliver
     summary = RunSummary()
     to_send: list[Ilan] = []
+    scanned = 0
 
     for source in sources:
         health = state.health(source.name)
@@ -91,9 +102,9 @@ def run(
                 raise RuntimeError(
                     f"0 ilan döndü (önceki: {health.last_count}); site yapısı değişmiş olabilir"
                 )
-        except Exception as e:  # kaynaklar birbirinden yalıtılmış (CLAUDE.md kural 2)
+        except Exception as e:  # bir kaynağın hatası diğerlerini durdurmaz
             summary.failed.append(source.name)
-            _record_failure(source, health, e, deliver)
+            _record_failure(source, health, e, admin)
             continue
 
         new = [i for i in items if i.key not in state.seen]
@@ -101,7 +112,7 @@ def run(
             for ilan in items:
                 state.mark_seen(ilan.key, now)
             health.bootstrapped = True
-            _record_success(source, health, len(items), now, deliver)
+            _record_success(source, health, len(items), now, admin)
             summary.succeeded.append(source.name)
             log.info("[%s] ilk çalışma: %d ilan sessizce kaydedildi", source.name, len(items))
             continue
@@ -127,8 +138,9 @@ def run(
                 to_send.append(ilan)
                 passed += 1
 
-        _record_success(source, health, len(items), now, deliver)
+        _record_success(source, health, len(items), now, admin)
         summary.succeeded.append(source.name)
+        scanned += len(items)
         log.info(
             "[%s] %d ilan, %d yeni, %d filtreden geçti (%.1f sn)",
             source.name,
@@ -149,7 +161,64 @@ def run(
         len(summary.skipped),
         len(summary.sent),
     )
+    state.stats.scanned += scanned
+    state.stats.sent += len(summary.sent)
+    maybe_heartbeat(sources, state, now, admin, label)
     return summary
+
+
+# --- haftalık rapor -----------------------------------------------------------------------
+
+HEARTBEAT_WEEKDAY = 6  # Pazar
+HEARTBEAT_HOUR = 20
+HEARTBEAT_MIN_GAP = timedelta(days=6)
+HEARTBEAT_MAX_GAP = timedelta(days=8)  # Pazar akşamı kaçırılırsa (bilgisayar kapalı) yine gönder
+
+RUNNER_LABELS = {"github": "GitHub", "local": "bilgisayar"}
+
+
+def heartbeat_due(last: str | None, now: datetime) -> bool:
+    """Pazar 20:00'den sonra ve son rapordan ≥6 gün geçtiyse; ya da ≥8 gün geçtiyse her zaman."""
+    try:
+        gap = now - datetime.fromisoformat(last) if last else None
+    except ValueError:
+        gap = None
+    if gap is not None and gap >= HEARTBEAT_MAX_GAP:
+        return True
+    sunday_evening = now.weekday() == HEARTBEAT_WEEKDAY and now.hour >= HEARTBEAT_HOUR
+    return sunday_evening and (gap is None or gap >= HEARTBEAT_MIN_GAP)
+
+
+def _thousands(n: int) -> str:
+    return f"{n:,}".replace(",", ".")  # 1284 → "1.284"
+
+
+def format_heartbeat(sources: list[Source], state: State, label: str | None) -> str:
+    where = f" ({RUNNER_LABELS.get(label, label)})" if label else ""
+    lines = [
+        f"💚 <b>Kamu İlan Botu çalışıyor</b>{where}",
+        f"Son rapordan beri: {_thousands(state.stats.scanned)} ilan tarandı, "
+        f"{_thousands(state.stats.sent)} bildirim gönderildi",
+    ]
+    for source in sources:
+        h = state.health(source.name)
+        if h.consecutive_failures:
+            status = f"⚠️ {source_label(source.name)} (art arda {h.consecutive_failures} hata)"
+        else:
+            status = f"✅ {source_label(source.name)}"
+        lines.append(status)
+    return "\n".join(lines)
+
+
+def maybe_heartbeat(
+    sources: list[Source], state: State, now: datetime, admin: Deliver, label: str | None
+) -> None:
+    if not sources or not heartbeat_due(state.last_heartbeat, now):
+        return
+    if admin(format_heartbeat(sources, state, label)):
+        state.last_heartbeat = now.isoformat(timespec="seconds")
+        state.stats.scanned = state.stats.sent = 0
+        log.info("Haftalık rapor gönderildi")
 
 
 # --- kaynak yardımcıları -----------------------------------------------------------------

@@ -285,3 +285,16 @@ def notifier_from_env(client: httpx.Client) -> TelegramNotifier:
             "kontrol et)."
         )
     return TelegramNotifier(token, chat_id, client)
+
+
+def admin_notifier_from_env(client: httpx.Client) -> TelegramNotifier | None:
+    """Bakım mesajları (sağlık uyarısı, haftalık rapor) için TELEGRAM_ADMIN_CHAT_ID.
+
+    Tanımlı değilse None: bakım mesajları ana sohbete gider. Ana sohbet herkese açık bir kanalsa
+    yöneticinin kişisel sohbetini buraya yazmak önerilir.
+    """
+    chat_id = os.environ.get("TELEGRAM_ADMIN_CHAT_ID", "").strip()
+    token = os.environ.get("TELEGRAM_BOT_TOKEN", "").strip()
+    if not chat_id or not token:
+        return None
+    return TelegramNotifier(token, chat_id, client)

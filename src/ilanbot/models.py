@@ -21,7 +21,7 @@ EDUCATION_LEVELS = frozenset({"ortaogretim", "onlisans", "lisans", "yuksek_lisan
 @dataclass(frozen=True)
 class Ilan:
     source: str  # "kamuilan_sbb" vb.
-    id: str  # CLAUDE.md kural 5
+    id: str  # kaynağın kendi ilan ID'si; yoksa normalize URL'nin SHA-1'i (başlık/tarih değil)
     title: str
     url: str  # mutlak URL
     institution: str | None = None  # kurum adı

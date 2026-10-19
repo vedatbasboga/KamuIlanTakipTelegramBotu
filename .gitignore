@@ -26,3 +26,11 @@ scratch/
 Thumbs.db
 
 # Not: data/state.json bilinçli olarak ignore EDİLMEZ; workflow onu commit'ler.
+
+# Yerel çalışma notları (Claude Code proje talimatları, aşama planları, ilerleme günlüğü).
+# Diskte kalır, herkese açık repoya girmez.
+00-BASLA.md
+CLAUDE.md
+docs/asamalar/
+docs/ILERLEME.md
+docs/kaynaklar.md

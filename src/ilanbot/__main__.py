@@ -13,7 +13,12 @@ from . import runner
 from .config import ConfigError, load_config
 from .http import make_client
 from .models import Ilan, now
-from .notifier import NotifierConfigError, format_ilan, notifier_from_env
+from .notifier import (
+    NotifierConfigError,
+    admin_notifier_from_env,
+    format_ilan,
+    notifier_from_env,
+)
 from .sources import REGISTRY, SOURCE_NAMES
 from .state import StateError, load_state, prune, save_state
 
@@ -44,6 +49,12 @@ def print_message(text: str) -> bool:
     return True
 
 
+def print_admin_message(text: str) -> bool:
+    """Dry-run'da yönetici (bakım) mesajını konsola yazar."""
+    print(f"\n----- Yönetici mesajı -----\n{text}\n---------------------------")
+    return True
+
+
 def test_telegram() -> int:
     """Bağlantı testi mesajı ve örnek (sahte) bir ilan kartı gönderir."""
     with make_client() as client:
@@ -67,6 +78,11 @@ def test_telegram() -> int:
         )
         ok = notifier.send("✅ Kamu İlan Botu bağlantı testi")
         ok = notifier.send(format_ilan(sample, t)) and ok
+        admin = admin_notifier_from_env(client)
+        if admin:
+            ok = admin.send("🔧 Yönetici sohbeti bağlantı testi (uyarılar buraya gelecek)") and ok
+        else:
+            log.info("TELEGRAM_ADMIN_CHAT_ID yok: uyarılar ana sohbete gidecek.")
     if ok:
         log.info("Test mesajları gönderildi. Telefonunu kontrol et.")
         return 0
@@ -162,14 +178,24 @@ def main(argv: list[str] | None = None) -> int:
     with make_client() as client:
         if args.dry_run:
             log.info("Dry-run: bildirim gönderilmeyecek, state kaydedilmeyecek.")
-            deliver = print_message
+            deliver, admin_deliver = print_message, print_admin_message
         else:
             try:
                 deliver = notifier_from_env(client).send
             except NotifierConfigError as e:
                 log.error("HATA: %s", e)
                 return 2
-        summary = runner.run(sources, config, state, client, deliver)
+            admin = admin_notifier_from_env(client)
+            admin_deliver = admin.send if admin else None
+        summary = runner.run(
+            sources,
+            config,
+            state,
+            client,
+            deliver,
+            admin_deliver=admin_deliver,
+            label=args.runner,
+        )
 
     if args.dry_run or args.no_save:
         log.info("State kaydedilmedi.")

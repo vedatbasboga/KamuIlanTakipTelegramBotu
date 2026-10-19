@@ -1,7 +1,8 @@
 """İlan filtreleri.
 
 Kurallar VE ile bağlanır; listesi boş kural atlanır. Öğrenim/KPSS/il alanı ilanda yoksa karar
-`filtre_belirsizse_gonder`'e kalır (CLAUDE.md kural 6). `exclude_keywords` her zaman önceliklidir.
+`filtre_belirsizse_gonder`'e kalır (kaçırılan ilan, fazla bildirimden kötüdür).
+`exclude_keywords` her zaman önceliklidir.
 """
 
 from __future__ import annotations

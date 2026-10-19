@@ -35,7 +35,7 @@ _COUNT_RE = re.compile(r"(?<![\d.])(\d{1,4})\s+(?=[^\W\d_])")
 def make_key(logo_id: str, published: datetime, institution: str, title: str) -> str:
     """Kararlı ID: site kalıcı ID vermediği için satırın değişmeyen alanlarından türetilir.
 
-    CLAUDE.md kural 5'ten bilinçli sapma (kullanıcı kararı, docs/ILERLEME.md): başlık düzeltilirse
+    Başlığın ID'ye girmesi bilinçli bir tercih (sitede kalıcı ID yok): başlık düzeltilirse
     ilan bir kez daha bildirilir.
     """
     norm = "|".join(
