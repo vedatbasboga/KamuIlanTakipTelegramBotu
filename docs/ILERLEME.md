@@ -6,7 +6,7 @@
 | 2 — Telegram bildirimi | ✅ Tamamlandı (2026-10-19) |
 | 3 — Kaynak keşfi | ✅ Tamamlandı (2026-10-19) |
 | 4 — Parser'lar | ✅ Tamamlandı (2026-10-19) |
-| 5 — Filtre, dedup, orkestrasyon | 🟡 Kullanıcı onayı bekleniyor |
+| 5 — Filtre, dedup, orkestrasyon | ✅ Tamamlandı (2026-10-19) |
 | 6 — GitHub Actions | ⏳ Bekliyor |
 | 7 — Sağlamlaştırma (opsiyonel) | ⏳ Bekliyor |
 
@@ -41,8 +41,8 @@
 - [x] `pytest -q` yeşil (233 passed).
 - [x] Yerelde iki çalışma: ilki 224 ilanı sessizce kaydetti, ikincisi 0 bildirim (iskur aralık
       nedeniyle atlandı).
-- [ ] 🧑 3 `seen` kaydı silindi (kariyer_kapisi, ilan_gov, yerel_yonetimler); üçüncü çalışma
-      "Toplam: 3 bildirim gönderildi" dedi. Kullanıcının telefonda onayı bekleniyor.
+- [x] 🧑 3 `seen` kaydı silindi (kariyer_kapisi, ilan_gov, yerel_yonetimler); üçüncü çalışma
+      "Toplam: 3 bildirim gönderildi" dedi; kullanıcı 3 mesajın telefona geldiğini onayladı.
 
 ### Notlar / sonraki iyileştirme adayları
 - Kaynaklar arası tekrar önleme basit: kamuilan "13 UZMAN YARDIMCISI ALACAK" ile ilan.gov.tr

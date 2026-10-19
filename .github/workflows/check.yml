@@ -1,0 +1,51 @@
+name: İlan kontrolü
+
+on:
+  schedule:
+    # TR saatiyle 07:07–23:37 arası her 30 dakikada bir (GitHub cron UTC'dir, TR = UTC+3).
+    # Tam/yarım saatler yerine 7 ve 37: o anlarda GitHub kuyruğu yoğun, gecikme artar.
+    - cron: "7,37 4-20 * * *"
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Dry-run: bildirim gönderme, state kaydetme"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write # state commit'i için
+
+concurrency:
+  group: ilanbot
+  cancel-in-progress: false # iki çalışma aynı anda state'e yazmasın
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -r requirements.txt
+
+      - name: İlanları kontrol et
+        env:
+          PYTHONPATH: src
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python -m ilanbot ${{ inputs.dry_run && '--dry-run' || '' }}
+
+      # Bot kısmen hata verse de görülen ilanlar kaybolmasın diye her durumda çalışır.
+      - name: State'i kaydet
+        if: ${{ always() && !inputs.dry_run }}
+        run: |
+          git config user.name "ilanbot"
+          git config user.email "ilanbot@users.noreply.github.com"
+          git add data/state.json
+          git diff --cached --quiet && exit 0
+          git commit -m "state: $(date -u +%FT%TZ)"
+          git pull --rebase
+          git push
