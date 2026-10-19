@@ -6,11 +6,51 @@
 | 2 — Telegram bildirimi | ✅ Tamamlandı (2026-10-19) |
 | 3 — Kaynak keşfi | ✅ Tamamlandı (2026-10-19) |
 | 4 — Parser'lar | ✅ Tamamlandı (2026-10-19) |
-| 5 — Filtre, dedup, orkestrasyon | ⏳ Bekliyor |
+| 5 — Filtre, dedup, orkestrasyon | 🟡 Kullanıcı onayı bekleniyor |
 | 6 — GitHub Actions | ⏳ Bekliyor |
 | 7 — Sağlamlaştırma (opsiyonel) | ⏳ Bekliyor |
 
 ---
+
+## Aşama 5 — Filtre, dedup, orkestrasyon
+
+### Tamamlananlar
+- `filters.py`: `matches(ilan, filters) -> (bool, gerekçe)`. Kurallar VE; boş liste atlanır;
+  alan yoksa `filtre_belirsizse_gonder`; `exclude_keywords` her zaman öncelikli; "Türkiye geneli /
+  tüm iller" her il filtresiyle eşleşir. Anahtar kelimeler başlık + kurum + özet içinde aranır.
+- `runner.py`:
+  - Sessiz ilk çalışma (bootstrap), sadece yeni ilanlara `enrich` (kaynak başına ≤20; fazlası
+    sonraki çalışmaya kalır, `seen`'e yazılmaz), filtreden geçmeyen de `seen`.
+  - Gönderim başarısızsa ilan (ve birleştirilen ikizleri) `seen`'den geri alınır.
+  - `max_messages_per_run` aşılırsa tek digest. Son başvurusu en yakın önce.
+  - Kaynaklar arası tekrar: kurum+başlık `SequenceMatcher` ≥0.9 → tek mesaj + "ayrıca: ...".
+    Aynı kaynağın iki ilanı asla birleştirilmez. Öncelik `SOURCE_NAMES` sırası.
+  - Sağlık: art arda 6 hata → tek uyarı (iletilemezse sonraki çalışmada tekrar denenir);
+    düzelince tek "tekrar çalışıyor". Önceden ≥10 ilan dönen kaynak 0 dönerse hata sayılır.
+  - Kaynak bazında asgari aralık (`iskur` 180 dk, 5 dk tolerans).
+  - Loglar: `[kaynak] N ilan, X yeni, Y filtreden geçti (t sn)`, toplam özet.
+- `__main__.py`: Gerçek modda `.env`/ortamdan notifier (eksikse exit 2), dry-run'da mesajlar
+  konsola yazılır.
+- 🧑 **Filtreler (kullanıcı kararı, 2026-10-19):** Bot ileride herkese açılabileceği için tüm
+  filtreler kapalı (öğrenim, KPSS, il, anahtar kelime boş). `config.yaml`'da örneklerle açıklandı.
+- Testler: `test_filters.py`, `test_runner.py` (sahte kaynak/notifier; bootstrap, yeni ilan,
+  hata yalıtımı, gönderim hatası, digest, birleştirme, sıralama, enrich sınırı, sağlık uyarısı,
+  sıfır şüphesi, asgari aralık, CLI dry-run state'e dokunmuyor). Toplam 233 test.
+
+### Kabul kriterleri
+- [x] `pytest -q` yeşil (233 passed).
+- [x] Yerelde iki çalışma: ilki 224 ilanı sessizce kaydetti, ikincisi 0 bildirim (iskur aralık
+      nedeniyle atlandı).
+- [ ] 🧑 3 `seen` kaydı silindi (kariyer_kapisi, ilan_gov, yerel_yonetimler); üçüncü çalışma
+      "Toplam: 3 bildirim gönderildi" dedi. Kullanıcının telefonda onayı bekleniyor.
+
+### Notlar / sonraki iyileştirme adayları
+- Kaynaklar arası tekrar önleme basit: kamuilan "13 UZMAN YARDIMCISI ALACAK" ile ilan.gov.tr
+  "... Kurumundan Uzman Yardımcılığı Giriş Sınav İlanı" aynı ilan ama benzerlik 0.9'un altında.
+  Filtresiz/herkese açık kullanımda aynı ilan 2-3 kaynaktan gelebilir. Aşama 7'de kurum adı +
+  son başvuru tarihi eşleşmesi gibi daha akıllı bir kural eklenebilir.
+- Herkese açık kullanım için Telegram **kanalı** uygun: bot kanala yönetici olarak eklenir,
+  `TELEGRAM_CHAT_ID=@kanal_adi` (kod değişikliği gerekmez).
 
 ## Aşama 4 — Parser'lar
 

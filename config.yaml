@@ -13,16 +13,23 @@ sources:            # kaynak aç/kapa (true = takip et, false = atla)
   yerel_yonetimler: true
 
 filters:
+  # Şu an tüm filtreler kapalı: bot herkese açık kullanım için tüm kamu ilanlarını gönderir.
+  # Kişisel kullanımda daraltmak için aşağıdaki listeleri doldur.
+
   # Geçerli değerler: ortaogretim, onlisans, lisans, yuksek_lisans, doktora
-  education_levels: [lisans]          # boş liste = filtre yok
+  education_levels: []                # boş liste = filtre yok (ör. [lisans, onlisans])
   # Puan türleri: P3, P93, P94, P121 ... ("KPSS P3" yazımı da kabul edilir)
-  kpss_types: [P3]                    # boş liste = filtre yok
+  kpss_types: []                      # boş liste = filtre yok (ör. [P3])
   # İl adları (ör. [İzmir, Ankara]). "Türkiye geneli" ilanlar her il filtresiyle eşleşir.
   locations: []                       # boş = tüm Türkiye
   # Başlık + kurum + özet içinde en az biri geçmeli (Türkçe, büyük/küçük harf duyarsız)
   include_keywords: []                # boş = şart yok
-  # Biri geçerse ilan her zaman elenir
-  exclude_keywords: ["öğretim üyesi", "doçent", "profesör", "araştırma görevlisi"]
+  # Biri geçerse ilan her zaman elenir. Örnekler:
+  #   akademik: "öğretim üyesi", "öğretim görevlisi", "araştırma görevlisi"
+  #   işçi:     "işçi"
+  #   askeri:   "subay", "astsubay"
+  #   duyuru:   "iptal ilanı", "düzeltme ilanı"
+  exclude_keywords: []
   # Bir ilanda filtrelenen alan (öğrenim, KPSS, il) okunamadıysa ilanı yine de gönder.
   # Kaçırılan ilan, fazladan gelen bildirimden daha kötüdür.
   filtre_belirsizse_gonder: true
