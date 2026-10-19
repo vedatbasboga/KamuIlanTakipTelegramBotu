@@ -72,3 +72,36 @@ def test_invalid_yaml(tmp_path):
     path.write_text("filters: [unclosed", encoding="utf-8")
     with pytest.raises(ConfigError, match="geçerli bir YAML değil"):
         load_config(path)
+
+
+def test_runners():
+    config = parse_config(
+        {
+            "sources": {"iskur": False},
+            "runners": {"github": ["ilan_gov", "iskur"], "local": ["kamuilan_sbb"]},
+        }
+    )
+    assert config.sources_for_runner("github") == ["ilan_gov"]  # iskur kapalı
+    assert config.sources_for_runner("local") == ["kamuilan_sbb"]
+    with pytest.raises(ConfigError, match="Tanımlı ortamlar: github, local"):
+        config.sources_for_runner("bulut")
+
+
+@pytest.mark.parametrize(
+    ("runners", "fragment"),
+    [
+        ({"github": ["sahibinden"]}, "bilinmeyen kaynak"),
+        ({"github": ["iskur"], "local": ["iskur"]}, "tek bir ortamda"),
+        ({"github": "iskur"}, "bir liste olmalı"),
+        (["github"], "sözlük olmalı"),
+    ],
+)
+def test_invalid_runners(runners, fragment):
+    with pytest.raises(ConfigError, match=fragment):
+        parse_config({"runners": runners})
+
+
+def test_repo_config_runners_cover_all_sources():
+    config = load_config(ROOT / "config.yaml")
+    covered = {name for group in config.runners.values() for name in group}
+    assert covered == set(SOURCE_NAMES)

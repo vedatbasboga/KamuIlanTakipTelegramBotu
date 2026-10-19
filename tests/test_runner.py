@@ -299,3 +299,17 @@ def test_missing_token_exits_2(cli_env, monkeypatch):
     monkeypatch.delenv("TELEGRAM_CHAT_ID", raising=False)
     assert cli.main(["--config", str(cfg), "--state", str(state_path)]) == 2
     assert not state_path.exists()
+
+
+def test_runner_flag_selects_group(tmp_path, monkeypatch, caplog):
+    cfg = tmp_path / "config.yaml"
+    cfg.write_text("runners:\n  github: [ilan_gov]\n  local: [kamuilan_sbb]\n", encoding="utf-8")
+    srcs = {n: FakeSource(n, [ilan(n, "1")]) for n in ("ilan_gov", "kamuilan_sbb")}
+    monkeypatch.setattr(cli, "REGISTRY", srcs)
+    monkeypatch.setattr(cli, "load_dotenv", lambda: None)
+    state_path = tmp_path / "state-local.json"
+    args = ["--runner", "local", "--dry-run", "--config", str(cfg), "--state", str(state_path)]
+    caplog.set_level("INFO")
+    assert cli.main(args) == 0
+    assert "[kamuilan_sbb]" in caplog.text and "[ilan_gov]" not in caplog.text
+    assert cli.main(["--runner", "yok", "--config", str(cfg), "--state", str(state_path)]) == 2

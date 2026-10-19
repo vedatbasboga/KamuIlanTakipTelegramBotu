@@ -6,24 +6,31 @@ sunucu gerekmez.
 
 ## Kaynaklar
 
-| Kaynak | Ne alınıyor | Sıklık |
-|---|---|---|
-| [kamuilan.sbb.gov.tr](https://kamuilan.sbb.gov.tr) | Cumhurbaşkanlığı SBB kamu personel ilanları | 30 dk |
-| [ilan.gov.tr](https://www.ilan.gov.tr) | Basın İlan Kurumu "Kamu-Akademik Personel" (Resmî Gazete ilanları dahil) | 30 dk |
-| [kariyerkapisi.gov.tr](https://kariyerkapisi.gov.tr/isealim) | Kariyer Kapısı aktif ilanlar | 30 dk |
-| [iskur.gov.tr](https://www.iskur.gov.tr/ilanlar/kamu-memur-alim-ilanlari/) | İŞKUR kamu memur alım ilanları | 3 saat |
-| [yerelyonetimler.csb.gov.tr](https://yerelyonetimler.csb.gov.tr/duyurular) | Belediye personel alım duyuruları | 30 dk |
-| resmigazete.gov.tr | **Kapalı** — erişim güvenilmez, içerik ilan.gov.tr'de | — |
+| Kaynak | Ne alınıyor | Sıklık | Nerede çalışır |
+|---|---|---|---|
+| [kamuilan.sbb.gov.tr](https://kamuilan.sbb.gov.tr) | Cumhurbaşkanlığı SBB kamu personel ilanları | 30 dk | Bilgisayar |
+| [ilan.gov.tr](https://www.ilan.gov.tr) | Basın İlan Kurumu "Kamu-Akademik Personel" (Resmî Gazete ilanları dahil) | 30 dk | GitHub |
+| [kariyerkapisi.gov.tr](https://kariyerkapisi.gov.tr/isealim) | Kariyer Kapısı aktif ilanlar | 30 dk | Bilgisayar |
+| [iskur.gov.tr](https://www.iskur.gov.tr/ilanlar/kamu-memur-alim-ilanlari/) | İŞKUR kamu memur alım ilanları | 3 saat | GitHub |
+| [yerelyonetimler.csb.gov.tr](https://yerelyonetimler.csb.gov.tr/duyurular) | Belediye personel alım duyuruları | 30 dk | Bilgisayar |
+| resmigazete.gov.tr | **Kapalı** — erişim güvenilmez, içerik ilan.gov.tr'de | — | — |
+
+**Neden iki yer?** GitHub'ın sunucuları yurt dışında; kamuilan, Kariyer Kapısı ve Yerel Yönetimler
+yabancı IP'leri engelliyor. Bu üç kaynak, bir Windows bilgisayardaki **self-hosted runner** ile
+Türkiye IP'sinden çalışır (bilgisayar kapalıyken bu üçü taranmaz, açılınca kaldığı yerden devam
+eder). Dağılım `config.yaml → runners` ile değiştirilebilir.
 
 Teknik ayrıntılar: [docs/kaynaklar.md](docs/kaynaklar.md).
 
 ## Nasıl çalışır
 
-1. GitHub Actions, TR saatiyle 07:07–23:37 arası her 30 dakikada bir `python -m ilanbot` çalıştırır.
+1. GitHub Actions, TR saatiyle 07:07–23:37 arası her 30 dakikada bir `python -m ilanbot --runner
+   github` (GitHub sunucusunda) ve :22/:52'de `--runner local` (bilgisayarda) çalıştırır.
 2. Bot her kaynaktan ilan listesini çeker, daha önce görmediği ilanları bulur.
 3. Filtrelerden (`config.yaml`) geçenleri Telegram'a gönderir. Aynı ilan birden çok kaynakta
    varsa tek mesaj gider ("ayrıca: ..." notuyla). Çok sayıda yeni ilan varsa tek özet mesaj gider.
-4. Görülen ilanlar `data/state.json`'a yazılır ve workflow bu dosyayı repoya commit'ler.
+4. Görülen ilanlar `data/state.json` (GitHub) ve `data/state-local.json` (bilgisayar) dosyalarına
+   yazılır; workflow'lar bunları repoya commit'ler.
 
 Bir kaynak ilk kez çalıştığında mevcut ilanlar **bildirim gönderilmeden** kaydedilir; böylece ilk
 çalışmada yüzlerce mesaj gelmez.
@@ -42,10 +49,23 @@ Bir kaynak ilk kez çalıştığında mevcut ilanlar **bildirim gönderilmeden**
    - `TELEGRAM_CHAT_ID`
 2. **Settings → Actions → General → Workflow permissions → Read and write permissions**.
 3. **Actions → "Erişim testi" → Run workflow**: kaynaklara GitHub sunucularından erişilebiliyor mu?
-4. **Actions → "İlan kontrolü" → Run workflow**: önce `dry_run` işaretli, log'u kontrol et; sonra
-   işaretsiz.
+4. **Actions → "İlan kontrolü (GitHub)" → Run workflow**: önce `dry_run` işaretli, log'u kontrol
+   et; sonra işaretsiz.
 
-### 3. Yerelde çalıştırma (isteğe bağlı)
+### 3. Self-hosted runner (Windows bilgisayar)
+1. Repo → **Settings → Actions → Runners → New self-hosted runner** → **Windows**, **x64**.
+2. GitHub'ın gösterdiği PowerShell komutlarını sırayla çalıştır (klasör olarak `C:\actions-runner`
+   önerilir; repo klasörünün içine kurma).
+3. `config.cmd` soruları: hepsine **Enter** (varsayılan etiketler `self-hosted, Windows, X64`);
+   **"run as service?" → N**. (Servis olarak çalışırsa kullanıcıya özel Python'u bulamayabilir.)
+4. `run.cmd` ile başlat → "Listening for Jobs" yazmalı.
+5. Oturum açılınca otomatik başlasın: `Win+R` → `shell:startup` → açılan klasöre
+   `C:\actions-runner\run.cmd` için kısayol oluştur.
+6. Bilgisayarda Python 3.10+ `python` komutuyla erişilebilir olmalı. Workflow ilk çalışmada
+   `%USERPROFILE%\.ilanbot-venv` ortamını kendisi kurar.
+7. **Actions → "İlan kontrolü (bilgisayar)" → Run workflow** ile test et.
+
+### 4. Yerelde çalıştırma (isteğe bağlı)
 ```bash
 python -m venv .venv && .venv/Scripts/activate      # Linux/macOS: source .venv/bin/activate
 pip install -r requirements.txt -r requirements-dev.txt
@@ -55,6 +75,7 @@ pip install -r requirements.txt -r requirements-dev.txt
 PYTHONPATH=src python -m ilanbot --test-telegram      # bağlantı testi
 PYTHONPATH=src python -m ilanbot --dry-run -v         # göndermeden konsola yaz
 PYTHONPATH=src python -m ilanbot --source ilan_gov --dry-run
+PYTHONPATH=src python -m ilanbot --runner local --state data/state-local.json --dry-run
 pytest -q
 ```
 
@@ -63,6 +84,7 @@ pytest -q
 | Ayar | Açıklama |
 |---|---|
 | `sources.<kaynak>` | Kaynağı aç/kapa |
+| `runners.<ortam>` | O ortamda (`--runner <ortam>`) çalışan kaynaklar; bir kaynak tek ortamda olmalı |
 | `filters.education_levels` | `ortaogretim`, `onlisans`, `lisans`, `yuksek_lisans`, `doktora`. Boş = filtre yok |
 | `filters.kpss_types` | `P3`, `P93`, `P94` ... Boş = filtre yok |
 | `filters.locations` | İl adları. "Türkiye geneli" ilanlar her il filtresiyle eşleşir |
@@ -82,9 +104,11 @@ geriye dönük gelmez.
   "✅ ... tekrar çalışıyor" mesajı gelir.
 - **Hiç bildirim gelmiyor:** Actions → "İlan kontrolü" log'unda `Toplam: N bildirim` satırına bak.
   Secrets doğru mu? `--test-telegram` yerelde çalışıyor mu?
-- **Bir kaynak yurt dışı IP'yi engelliyor:** O kaynağı `config.yaml`'da kapat ya da kendi
-  bilgisayarında [self-hosted runner](https://docs.github.com/actions/hosting-your-own-runners)
-  kurup `runs-on: self-hosted` kullan (bilgisayar kapalıyken çalışmaz).
+- **Bir kaynak yurt dışı IP'yi engelliyor:** `config.yaml → runners` içinde onu `github`'dan
+  `local`'e taşı (self-hosted runner'da çalışır). State dosyasındaki kayıtlarını da diğer dosyaya
+  taşı, yoksa ilk çalışma "sessiz bootstrap" olur.
+- **Bilgisayar tarafı çalışmıyor:** Settings → Actions → Runners'da runner "Idle" mı? Değilse
+  `C:\actions-runner\run.cmd`'yi başlat.
 - **Belirli bir ilanı tekrar almak (test):** `data/state.json` → `seen` içinden o ilanın satırını
   sil, commit'le; bir sonraki çalışmada (filtreye uyuyorsa) tekrar gelir.
 

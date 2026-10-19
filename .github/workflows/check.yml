@@ -1,5 +1,6 @@
-name: İlan kontrolü
+name: İlan kontrolü (GitHub)
 
+# GitHub'ın erişebildiği kaynaklar (config.yaml → runners.github). Diğerleri check-local.yml'de.
 on:
   schedule:
     # TR saatiyle 07:07–23:37 arası her 30 dakikada bir (GitHub cron UTC'dir, TR = UTC+3).
@@ -16,7 +17,7 @@ permissions:
   contents: write # state commit'i için
 
 concurrency:
-  group: ilanbot
+  group: ilanbot-github
   cancel-in-progress: false # iki çalışma aynı anda state'e yazmasın
 
 jobs:
@@ -24,8 +25,8 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: "3.12"
           cache: pip
@@ -36,7 +37,7 @@ jobs:
           PYTHONPATH: src
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-        run: python -m ilanbot ${{ inputs.dry_run && '--dry-run' || '' }}
+        run: python -m ilanbot --runner github ${{ inputs.dry_run && '--dry-run' || '' }}
 
       # Bot kısmen hata verse de görülen ilanlar kaybolmasın diye her durumda çalışır.
       - name: State'i kaydet

@@ -7,10 +7,36 @@
 | 3 — Kaynak keşfi | ✅ Tamamlandı (2026-10-19) |
 | 4 — Parser'lar | ✅ Tamamlandı (2026-10-19) |
 | 5 — Filtre, dedup, orkestrasyon | ✅ Tamamlandı (2026-10-19) |
-| 6 — GitHub Actions | ⏳ Bekliyor |
+| 6 — GitHub Actions | 🟡 Devam ediyor |
 | 7 — Sağlamlaştırma (opsiyonel) | ⏳ Bekliyor |
 
 ---
+
+## Aşama 6 — GitHub Actions
+
+### Tamamlananlar
+- `scripts/access_test.py` + `access-test.yml`: her liste uç noktasına istek, durum/boyut/süre,
+  engel işaretleri, parse edilen kayıt sayısı → `$GITHUB_STEP_SUMMARY`.
+- 🧑 Erişim testi (2026-10-19): kamuilan 403, kariyer_kapisi ve yerel_yonetimler bağlantı zaman
+  aşımı; ilan_gov ve iskur erişilebilir (ayrıntı: `docs/kaynaklar.md`).
+- 🧑 Karar: **karma** — ilan_gov + iskur GitHub'da 7/24; diğer üçü kullanıcının Windows
+  bilgisayarındaki self-hosted runner'da (bilgisayar çoğu zaman açık).
+  - `config.yaml → runners` (`github`, `local`) + CLI `--runner NAME`. Bir kaynak tek ortamda
+    olabilir (doğrulanıyor), aksi halde iki kez bildirilirdi.
+  - Ayrı state dosyaları: `data/state.json` (GitHub), `data/state-local.json` (bilgisayar);
+    mevcut state ikiye bölündü. Ayrı concurrency grupları; cron'lar kaydırıldı (:07/:37, :22/:52).
+  - `check-local.yml`: `runs-on: [self-hosted, Windows]`, `shell: cmd` (Windows PowerShell 5.1
+    git stderr'ini hata sayabiliyor), kalıcı venv `%USERPROFILE%\.ilanbot-venv`. Adımlar yerelde
+    `cmd` ile birebir denendi (dry-run başarılı).
+- `check.yml` (`--runner github`), `test.yml` (ruff + pytest; state commit'leri tetiklemez).
+- Action sürümleri Node 24'e güncellendi (`checkout@v5`, `setup-python@v6`).
+- `README.md`: kurulum, self-hosted runner, ayarlar, sorun giderme, Actions notları.
+
+### Kabul kriterleri
+- [x] Erişim testi sonuçları `docs/kaynaklar.md`'ye işlendi.
+- [ ] Ana workflow'lar en az 3 zamanlanmış çalışmayı hatasız tamamladı; state commit'leri repoda.
+- [ ] Test workflow'u yeşil.
+- [ ] 🧑 Gerçek bir yeni ilan bildirimi telefona geldi.
 
 ## Aşama 5 — Filtre, dedup, orkestrasyon
 

@@ -44,13 +44,23 @@ class Config:
     filters: FiltersConfig = field(default_factory=FiltersConfig)
     notify: NotifyConfig = field(default_factory=NotifyConfig)
     state: StateConfig = field(default_factory=StateConfig)
+    # Çalışma ortamı adı → o ortamda çalışan kaynaklar (ör. "github", "local").
+    runners: dict[str, tuple[str, ...]] = field(default_factory=dict)
 
     @property
     def enabled_sources(self) -> list[str]:
         return [name for name in SOURCE_NAMES if self.sources.get(name)]
 
+    def sources_for_runner(self, runner: str) -> list[str]:
+        """Bu ortamda çalışacak, config'te açık kaynaklar."""
+        if runner not in self.runners:
+            known = ", ".join(sorted(self.runners)) or "(tanımlı ortam yok)"
+            raise ConfigError(f"'runners' içinde '{runner}' yok. Tanımlı ortamlar: {known}.")
+        group = set(self.runners[runner])
+        return [name for name in self.enabled_sources if name in group]
 
-_TOP_KEYS = {"sources", "filters", "notify", "state"}
+
+_TOP_KEYS = {"sources", "filters", "notify", "state", "runners"}
 _FILTER_KEYS = {
     "education_levels",
     "kpss_types",
@@ -111,7 +121,13 @@ def parse_config(raw: Any) -> Config:
         prune_after_days=_positive_int(s.get("prune_after_days", 120), "state.prune_after_days")
     )
 
-    return Config(sources=sources, filters=filters, notify=notify, state=state)
+    return Config(
+        sources=sources,
+        filters=filters,
+        notify=notify,
+        state=state,
+        runners=_runners(data.get("runners")),
+    )
 
 
 # --- doğrulama yardımcıları -----------------------------------------------------
@@ -188,6 +204,28 @@ def _locations(value: Any) -> frozenset[str]:
             raise ConfigError(f"'{name}' içinde tanınmayan il: {item!r}.")
         out.add(il)
     return frozenset(out)
+
+
+def _runners(value: Any) -> dict[str, tuple[str, ...]]:
+    if value is None:
+        return {}
+    if not isinstance(value, dict):
+        raise ConfigError(f"'runners' bir sözlük olmalı, {_typename(value)} geldi.")
+    runners: dict[str, tuple[str, ...]] = {}
+    owner: dict[str, str] = {}
+    for runner, names in value.items():
+        items = _str_list(names, f"runners.{runner}")
+        for name in items:
+            if name not in SOURCE_NAMES:
+                raise ConfigError(f"'runners.{runner}' içinde bilinmeyen kaynak: {name!r}.")
+            if name in owner:
+                raise ConfigError(
+                    f"'{name}' hem 'runners.{owner[name]}' hem 'runners.{runner}' içinde; "
+                    "bir kaynak tek bir ortamda çalışmalı (aksi halde iki kez bildirilir)."
+                )
+            owner[name] = str(runner)
+        runners[str(runner)] = tuple(items)
+    return runners
 
 
 def _keywords(value: Any, name: str) -> tuple[str, ...]:

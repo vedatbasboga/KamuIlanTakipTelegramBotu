@@ -1,7 +1,23 @@
 # Kaynaklar — teknik keşif notları (Aşama 3)
 
-Keşif tarihi: 2026-10-19, yerel makineden (Türkiye IP'si). GitHub runner'larından (yurt dışı IP)
-erişim Aşama 6.1'de ayrıca test edilecek.
+Keşif tarihi: 2026-10-19, yerel makineden (Türkiye IP'si).
+
+## GitHub runner'larından erişim (Aşama 6.1, 2026-10-19)
+
+`Erişim testi` workflow'u, `ubuntu-latest` (yurt dışı IP):
+
+| Kaynak | Sonuç | Karar |
+|---|---|---|
+| `kamuilan_sbb` | ❌ HTTP 403, "access denied" (2 KB) | Bilgisayarda (self-hosted) |
+| `ilan_gov` | ✅ 200, 20 kayıt | GitHub |
+| `kariyer_kapisi` | ❌ ConnectTimeout (25 sn) | Bilgisayarda (self-hosted) |
+| `iskur` | ✅ 200, il listesi 17 + Ankara 20 kayıt | GitHub |
+| `yerel_yonetimler` | ❌ ConnectTimeout (25 sn) | Bilgisayarda (self-hosted) |
+| `resmi_gazete` (kapalı) | ✅ ana sayfa 200 (5 sn) | Kapalı kalıyor; ilan sayfaları test edilmedi |
+
+→ Kullanıcı kararı: **karma** çalışma. `config.yaml → runners` ile ayrılır; GitHub tarafı
+`data/state.json`, bilgisayar tarafı `data/state-local.json` kullanır (aynı dosyaya iki yerden
+yazılmaz, git çakışması olmaz).
 
 Özet:
 

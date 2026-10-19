@@ -12,6 +12,14 @@ sources:            # kaynak aç/kapa (true = takip et, false = atla)
   resmi_gazete: false              # kapalı: erişim güvenilmez, içerik ilan.gov.tr'de var (docs/kaynaklar.md)
   yerel_yonetimler: true
 
+# Hangi kaynak nerede çalışır (`python -m ilanbot --runner <ad>`).
+# GitHub'ın yurt dışı sunucuları kamuilan, Kariyer Kapısı ve Yerel Yönetimler'i engelliyor
+# (erişim testi 2026-10-19, docs/kaynaklar.md); bunlar kullanıcının bilgisayarındaki
+# self-hosted runner'da çalışır. Bir kaynak tek bir ortamda olmalı.
+runners:
+  github: [ilan_gov, iskur, resmi_gazete]
+  local: [kamuilan_sbb, kariyer_kapisi, yerel_yonetimler]
+
 filters:
   # Şu an tüm filtreler kapalı: bot herkese açık kullanım için tüm kamu ilanlarını gönderir.
   # Kişisel kullanımda daraltmak için aşağıdaki listeleri doldur.

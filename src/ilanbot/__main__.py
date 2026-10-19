@@ -89,7 +89,13 @@ def build_parser() -> argparse.ArgumentParser:
         action="append",
         metavar="NAME",
         choices=SOURCE_NAMES,
-        help="Sadece bu kaynağı çalıştır (tekrarlanabilir).",
+        help="Sadece bu kaynağı çalıştır (tekrarlanabilir). config'te kapalı olsa da çalışır.",
+    )
+    p.add_argument(
+        "--runner",
+        metavar="NAME",
+        help="config.yaml 'runners' bölümündeki bu ortamın açık kaynaklarını çalıştır "
+        "(ör. github, local).",
     )
     p.add_argument(
         "--config", default="config.yaml", help="Config dosyası (varsayılan: %(default)s)"
@@ -131,7 +137,17 @@ def main(argv: list[str] | None = None) -> int:
         log.error("HATA: %s", e)
         return 2
 
-    names = args.source or config.enabled_sources
+    if args.source:
+        names = args.source
+    elif args.runner:
+        try:
+            names = config.sources_for_runner(args.runner)
+        except ConfigError as e:
+            log.error("HATA: %s", e)
+            return 2
+        log.info("Ortam '%s': %s", args.runner, ", ".join(names) or "(kaynak yok)")
+    else:
+        names = config.enabled_sources
     if args.source:
         disabled = [n for n in args.source if not config.sources.get(n)]
         if disabled:
