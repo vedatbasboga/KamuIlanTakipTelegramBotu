@@ -1,0 +1,35 @@
+# Kamu İlan Botu ayarları
+#
+# Not: Filtreden geçmeyen ilanlar da "görüldü" olarak kaydedilir. Filtreleri sonradan
+# değiştirirsen, daha önce görülmüş eski ilanlar geriye dönük olarak GELMEZ; sadece bundan
+# sonra çıkan ilanlara yeni filtre uygulanır.
+
+sources:            # kaynak aç/kapa (true = takip et, false = atla)
+  kamuilan_sbb: true
+  ilan_gov: true
+  kariyer_kapisi: true
+  iskur: true
+  resmi_gazete: true
+  yerel_yonetimler: true
+
+filters:
+  # Geçerli değerler: ortaogretim, onlisans, lisans, yuksek_lisans, doktora
+  education_levels: [lisans]          # boş liste = filtre yok
+  # Puan türleri: P3, P93, P94, P121 ... ("KPSS P3" yazımı da kabul edilir)
+  kpss_types: [P3]                    # boş liste = filtre yok
+  # İl adları (ör. [İzmir, Ankara]). "Türkiye geneli" ilanlar her il filtresiyle eşleşir.
+  locations: []                       # boş = tüm Türkiye
+  # Başlık + kurum + özet içinde en az biri geçmeli (Türkçe, büyük/küçük harf duyarsız)
+  include_keywords: []                # boş = şart yok
+  # Biri geçerse ilan her zaman elenir
+  exclude_keywords: ["öğretim üyesi", "doçent", "profesör", "araştırma görevlisi"]
+  # Bir ilanda filtrelenen alan (öğrenim, KPSS, il) okunamadıysa ilanı yine de gönder.
+  # Kaçırılan ilan, fazladan gelen bildirimden daha kötüdür.
+  filtre_belirsizse_gonder: true
+
+notify:
+  max_messages_per_run: 15            # aşılırsa tek bir özet mesaj gönderilir
+  show_deadline_days_left: true       # "(9 gün kaldı)" bilgisini göster
+
+state:
+  prune_after_days: 120               # bu kadar günden eski "görüldü" kayıtları silinir
