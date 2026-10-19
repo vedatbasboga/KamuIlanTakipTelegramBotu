@@ -56,13 +56,28 @@ def print_admin_message(text: str) -> bool:
 
 
 def test_telegram() -> int:
-    """Bağlantı testi mesajı ve örnek (sahte) bir ilan kartı gönderir."""
+    """Bağlantı testi mesajı ve örnek (sahte) bir ilan kartı gönderir.
+
+    Yönetici sohbeti tanımlıysa test mesajları oraya gider; herkese açık kanala hiçbir şey
+    gönderilmez, sadece botun kanalda mesaj gönderme yetkisi kontrol edilir.
+    """
     with make_client() as client:
         try:
             notifier = notifier_from_env(client)
         except NotifierConfigError as e:
             log.error("HATA: %s", e)
             return 2
+        admin = admin_notifier_from_env(client)
+        target = notifier
+        if admin:
+            can_post, detail = notifier.can_post()
+            log.info("Ana sohbet yetkisi: %s", detail)
+            if not can_post:
+                log.error("Bot ana sohbete mesaj gönderemez; ayarları kontrol et.")
+                return 1
+            target = admin
+        else:
+            log.info("TELEGRAM_ADMIN_CHAT_ID yok: test mesajları ana sohbete gidiyor.")
         t = now()
         sample = Ilan(
             source="kamuilan_sbb",
@@ -76,13 +91,8 @@ def test_telegram() -> int:
             locations=frozenset({"İZMİR"}),
             position_count=12,
         )
-        ok = notifier.send("✅ Kamu İlan Botu bağlantı testi")
-        ok = notifier.send(format_ilan(sample, t)) and ok
-        admin = admin_notifier_from_env(client)
-        if admin:
-            ok = admin.send("🔧 Yönetici sohbeti bağlantı testi (uyarılar buraya gelecek)") and ok
-        else:
-            log.info("TELEGRAM_ADMIN_CHAT_ID yok: uyarılar ana sohbete gidecek.")
+        ok = target.send("✅ Kamu İlan Botu bağlantı testi")
+        ok = target.send(format_ilan(sample, t)) and ok
     if ok:
         log.info("Test mesajları gönderildi. Telefonunu kontrol et.")
         return 0

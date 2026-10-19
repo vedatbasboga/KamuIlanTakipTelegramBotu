@@ -276,3 +276,59 @@ def test_load_dotenv(tmp_path, monkeypatch):
     assert os.environ["ILANBOT_TEST_C"] == "ortamdaki"  # ortam önceliklidir
     monkeypatch.delenv("ILANBOT_TEST_A")
     monkeypatch.delenv("ILANBOT_TEST_B")
+
+
+API = f"https://api.telegram.org/bot{TOKEN}"
+
+
+@respx.mock
+@pytest.mark.parametrize(
+    ("chat", "member", "expected"),
+    [
+        ({"type": "private", "first_name": "Vedat"}, None, True),
+        (
+            {"type": "channel", "title": "Kanal"},
+            {"status": "administrator", "can_post_messages": True},
+            True,
+        ),
+        (
+            {"type": "channel", "title": "Kanal"},
+            {"status": "administrator", "can_post_messages": False},
+            False,
+        ),
+        ({"type": "channel", "title": "Kanal"}, {"status": "left"}, False),
+    ],
+)
+def test_can_post(notifier, chat, member, expected):
+    respx.get(f"{API}/getMe").respond(200, json={"ok": True, "result": {"id": 7}})
+    respx.get(f"{API}/getChat").respond(200, json={"ok": True, "result": chat})
+    respx.get(f"{API}/getChatMember").respond(200, json={"ok": True, "result": member or {}})
+    sent = respx.post(SEND_URL).respond(200, json={"ok": True})
+    ok, detail = notifier.can_post()
+    assert ok is expected, detail
+    assert not sent.called  # hiçbir mesaj gönderilmez
+
+
+@respx.mock
+def test_can_post_api_error_masks_token(notifier):
+    respx.get(f"{API}/getMe").respond(401, json={"ok": False, "description": "Unauthorized"})
+    ok, detail = notifier.can_post()
+    assert not ok and "Unauthorized" in detail and TOKEN not in detail
+
+
+@respx.mock
+def test_test_telegram_never_posts_to_channel_when_admin_set(monkeypatch):
+    from ilanbot import __main__ as cli
+
+    monkeypatch.setenv("TELEGRAM_BOT_TOKEN", TOKEN)
+    monkeypatch.setenv("TELEGRAM_CHAT_ID", "@kanal")
+    monkeypatch.setenv("TELEGRAM_ADMIN_CHAT_ID", "42")
+    respx.get(f"{API}/getMe").respond(200, json={"ok": True, "result": {"id": 7}})
+    respx.get(f"{API}/getChat").respond(200, json={"ok": True, "result": {"type": "channel"}})
+    respx.get(f"{API}/getChatMember").respond(
+        200, json={"ok": True, "result": {"status": "administrator", "can_post_messages": True}}
+    )
+    sent = respx.post(SEND_URL).respond(200, json={"ok": True})
+    assert cli.test_telegram() == 0
+    chats = {json.loads(c.request.content)["chat_id"] for c in sent.calls}
+    assert chats == {"42"}

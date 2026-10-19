@@ -209,6 +209,33 @@ class TelegramNotifier:
         """Mesajı gönderir (gerekirse parçalara bölerek). Tüm parçalar gittiyse True."""
         return all(self._send_chunk(chunk) for chunk in split_message(text))
 
+    def can_post(self) -> tuple[bool, str]:
+        """Mesaj göndermeden, botun bu sohbete yazıp yazamayacağını kontrol eder."""
+        try:
+            bot_id = self._api("getMe")["id"]
+            chat = self._api("getChat", chat_id=self.chat_id)
+            name = chat.get("title") or chat.get("username") or chat.get("first_name") or "?"
+            if chat.get("type") == "private":
+                return True, f"kişisel sohbet ({name})"
+            member = self._api("getChatMember", chat_id=self.chat_id, user_id=bot_id)
+        except (httpx.HTTPError, KeyError, ValueError) as e:
+            return False, f"kontrol edilemedi: {self._mask(str(e))}"
+        if chat.get("type") == "channel":
+            ok = member.get("status") == "creator" or bool(member.get("can_post_messages"))
+            return (
+                ok,
+                f"kanal '{name}': {'yönetici, gönderebilir' if ok else 'gönderme yetkisi yok'}",
+            )
+        ok = member.get("status") not in {"left", "kicked", "restricted"}
+        return ok, f"{chat.get('type')} '{name}': {member.get('status')}"
+
+    def _api(self, method: str, **params: object) -> dict:
+        response = self._client.get(f"{API_BASE}/bot{self._token}/{method}", params=params)
+        data = response.json()
+        if not data.get("ok"):
+            raise ValueError(data.get("description", f"HTTP {response.status_code}"))
+        return data["result"]
+
     def _send_chunk(self, text: str) -> bool:
         payload = {
             "chat_id": self.chat_id,
