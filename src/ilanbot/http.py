@@ -2,11 +2,15 @@
 
 from __future__ import annotations
 
+import functools
 import logging
+import ssl
 import time
 from collections.abc import Callable
+from pathlib import Path
 from typing import Any
 
+import certifi
 import httpx
 
 from . import __version__
@@ -18,19 +22,38 @@ USER_AGENT = (
 )
 TIMEOUT_SECONDS = 20.0
 RETRY_DELAYS = (1.0, 3.0)  # en fazla 2 retry
+_sleep = time.sleep  # testlerde yamalanır
+
+
+CERTS_DIR = Path(__file__).parent / "certs"
+
+
+@functools.lru_cache(maxsize=1)
+def ssl_context() -> ssl.SSLContext:
+    """certifi kök sertifikaları + `certs/` altındaki eksik ara sertifikalar.
+
+    Bazı `.gov.tr` sunucuları (ör. www.ilan.gov.tr) zincirdeki ara sertifikayı göndermiyor;
+    tarayıcılar bunu kendisi tamamlar, OpenSSL tamamlamaz. Ara sertifikayı burada eklemek
+    doğrulamayı kapatmadan (`verify=False` olmadan) zinciri tamamlar. Kökler yine certifi'den
+    gelir; ara sertifikalar yalnızca zincir kurmak için kullanılır.
+    """
+    ctx = ssl.create_default_context(cafile=certifi.where())
+    for pem in sorted(CERTS_DIR.glob("*.pem")):
+        ctx.load_verify_locations(cafile=str(pem))
+    return ctx
 
 
 def make_client(**kwargs: Any) -> httpx.Client:
     """Projenin varsayılanlarıyla bir httpx.Client oluşturur.
 
-    `verify=False` varsayılan değildir. Bir kaynağın sertifika zinciri sorunluysa,
-    o kaynakta açıkça ve gerekçesiyle ayrı bir client kullanılmalı.
+    `verify=False` hiçbir yerde kullanılmaz; sertifika sorunları `certs/` ile çözülür.
     """
     headers = {"User-Agent": USER_AGENT, "Accept-Language": "tr-TR,tr;q=0.9"}
     headers.update(kwargs.pop("headers", {}))
     return httpx.Client(
         headers=headers,
         timeout=kwargs.pop("timeout", TIMEOUT_SECONDS),
+        verify=kwargs.pop("verify", ssl_context()),
         follow_redirects=True,
         http2=False,
         **kwargs,
@@ -42,7 +65,7 @@ def request_with_retry(
     method: str,
     url: str,
     *,
-    sleep: Callable[[float], None] = time.sleep,
+    sleep: Callable[[float], None] | None = None,
     **kwargs: Any,
 ) -> httpx.Response:
     """İsteği atar; 5xx, timeout ve bağlantı hatasında en fazla 2 kez tekrar dener.
@@ -72,7 +95,7 @@ def request_with_retry(
             attempt,
             len(RETRY_DELAYS),
         )
-        sleep(delay)
+        (sleep or _sleep)(delay)
     raise AssertionError("unreachable")  # pragma: no cover
 
 

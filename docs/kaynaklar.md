@@ -22,8 +22,10 @@ erişim Aşama 6.1'de ayrıca test edilecek.
 - **Sayfalama:** Yok; tüm aktif ilanlar tek sayfada.
 - **Satır yapısı:** `ul#nav2 > li` her biri bir yayın günü (`time.cbp_tmtime` → `h4` gün, `h3` ay).
   İçinde her ilan bir `a.xx`:
-  - `img.limg2[src]` → `./ilan_dosyalar/logolar/<kurumLogoId>.png#19.10.2026 00:00:00`
-    (fragment = yayın tarihi)
+  - `img.limg2[src]` → `./ilan_dosyalar/logolar/<kurumLogoId>.png#19.10.2026 00:00:00`.
+    ⚠️ Fragment yayın tarihi **değil**: tüm satırlarda o günün tarihi (önbellek kırıcı), her gün
+    değişir → ID'ye girmemeli. Belediyelerde logo `BEL2.png` ve fragment yok.
+  - Yayın günü: üstteki `li > time` (`h4` gün, `h3` ay); yıl yok → bugüne göre çıkarılır.
   - `p.alt_p1` → kurum adı
   - `p.alt_p2` → başlık; içindeki `em` → başvuru aralığı `( 19 Ekim - 2 Kasım)` (yıl yok;
     bitiş ayı başlangıçtan küçükse sonraki yıl)
@@ -31,9 +33,9 @@ erişim Aşama 6.1'de ayrıca test edilecek.
   (rastgele IV ile şifrelenmiş; aynı ilan iki istekte farklı `kod`). Detay PDF'inin
   `Content-Disposition` dosya adı (ör. `2026-23-221-....pdf`) kararlı ama ilan başına ayrı istek
   gerektiriyor.
-  → **Öneri:** `sha1(logoId | yayın tarihi | normalize(kurum) | normalize(başlık))[:16]`.
-  Tam satır (logo, kurum, başlık, tarih aralığı) 98 ilanda 98 benzersiz; logo+tarih+başlık tek
-  başına yetmiyor (aynı logo farklı kurumlarda kullanılıyor). **CLAUDE.md kural 5'ten sapma:**
+  → **Karar:** `sha1(logoId | yayın günü (zaman çizelgesi) | normalize(kurum) |
+  normalize(başlık))[:16]`. 98 ilanda 98 benzersiz; iki ayrı çekimde ve fragment'ı değişmiş
+  "ertesi gün" senaryosunda aynı ID'ler üretildiği test edildi. **CLAUDE.md kural 5'ten sapma:**
   başlık ID'ye giriyor; başlık düzeltilirse ilan bir kez daha bildirilir (kaçırmaktan iyidir).
 - **Mevcut alanlar:** başlık ✓, kurum ✓, yayın tarihi ✓, son başvuru ✓ (gün, saat yok),
   öğrenim ✗, KPSS ✗, il ✗, kadro sayısı ~ (başlıktan: "153 SÖZLEŞMELİ PERSONEL ALACAK").

@@ -64,6 +64,10 @@ def run(
         health.last_count = len(items)
         summary.succeeded.append(source.name)
         log.info("[%s] %d ilan (%.1f sn)", source.name, len(items), time.monotonic() - started)
+        for ilan in items[:5]:
+            deadline = f" (son: {ilan.deadline:%d.%m.%Y})" if ilan.deadline else ""
+            who = f"{ilan.institution} — " if ilan.institution else ""
+            log.debug("    • %s%s%s", who, ilan.title, deadline)
 
     log.info(
         "%d kaynak çalıştı: %d başarılı, %d hatalı",

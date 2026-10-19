@@ -5,12 +5,52 @@
 | 1 — İskelet ve altyapı | ✅ Tamamlandı (2026-10-19) |
 | 2 — Telegram bildirimi | ✅ Tamamlandı (2026-10-19) |
 | 3 — Kaynak keşfi | ✅ Tamamlandı (2026-10-19) |
-| 4 — Parser'lar | ⏳ Bekliyor |
+| 4 — Parser'lar | ✅ Tamamlandı (2026-10-19) |
 | 5 — Filtre, dedup, orkestrasyon | ⏳ Bekliyor |
 | 6 — GitHub Actions | ⏳ Bekliyor |
 | 7 — Sağlamlaştırma (opsiyonel) | ⏳ Bekliyor |
 
 ---
+
+## Aşama 4 — Parser'lar
+
+### Tamamlananlar
+- Her kaynak: saf `parse(raw)` + `Source` sınıfı (`list_items`, gerekiyorsa `enrich`).
+  `sources/__init__.py` → `REGISTRY` (5 kaynak; `resmi_gazete` bilinçli olarak yok).
+- `sources/base.py`: `BaseSource` (varsayılan `enrich`, `min_interval_minutes`), `parse_rows`
+  (bozuk satırı atla + uyar; satırların **hepsi** hata verirse `ParseError`; bilerek atlanan satır,
+  ör. süresi geçmiş ilan, hata sayılmaz; ID tekilleştirme).
+- `dates.py`: `parse_tr_date` ("28.10.2026", "28/10/2026 17:00", "28 Ekim 2026", ISO),
+  `parse_iso` (UTC → İstanbul), `month_number`.
+- `http.py`: Ortak `ssl_context()` = certifi + `ilanbot/certs/*.pem` (ilan.gov.tr'nin eksik ara
+  sertifikası). Doğrulama hiçbir yerde kapatılmadı. `certifi` requirements'a açıkça eklendi
+  (httpx'in zaten bağımlılığı, yeni paket değil).
+- Kaynak notları:
+  - `kamuilan_sbb`: ⚠️ Logo src'sindeki tarih eki yayın tarihi değil, **her gün değişen bugünün
+    tarihi** (önbellek kırıcı) çıktı. ID buna dayansaydı tüm ilanlar her gün yeniden bildirilirdi.
+    Yayın günü zaman çizelgesinden (`li > time`) alınıyor, yıl bugüne göre çıkarılıyor. ID'lerin
+    iki çekimde ve "ertesi gün" senaryosunda aynı kaldığı test edildi. Kadro sayısı başlıktan
+    ("6 UZMAN, 1 DESTEK" → 7). İl, kurum adından (`find_iller`).
+  - `ilan_gov`: 2 sayfa × 20; `enrich` detay metninden öğrenim/KPSS/son başvuru. URL'lerdeki
+    bölünmez boşluklar temizlendi.
+  - `kariyer_kapisi`: süresi geçmiş ilanlar atlanıyor; "KURUM - BAŞLIK" önek tekrarı atılıyor;
+    `summary = "İlan türü: ..."`.
+  - `iskur`: `min_interval_minutes = 180` (kullanıcı kararı); il listesi + il başına bir istek.
+  - `yerel_yonetimler`: il, başlıktaki "X İLİ" kalıbından ya da `find_iller`.
+- Testler: `test_dates.py`, `test_sources_base.py`, `test_source_<kaynak>.py` × 5 (fixture'larla,
+  ağ yok; `respx` ile istek biçimi doğrulaması). Toplam 192 test.
+
+### Kabul kriterleri
+- [x] Kullanılabilir her kaynak için parser ve testler var, `pytest -q` yeşil (192 passed).
+- [x] Canlı `--dry-run` (2026-10-19): kamuilan 98, ilan_gov 40, kariyer_kapisi 31,
+      yerel_yonetimler 12, iskur 43 ilan (17 il, 5.7 sn). İlk 5 ilan sitelerdekiyle uyumlu —
+      **canlı doğrulandı: 2026-10-19**. ilan_gov `enrich` canlıda: `{P3}`, `{lisans}`.
+- [x] `ruff check .` temiz.
+
+### Notlar
+- `find_iller` kurum adından il çıkarıyor (ör. "KIRIKKALE ÜNİVERSİTESİ" → KIRIKKALE). Merkezi
+  kurumlarda il boş kalır → `filtre_belirsizse_gonder` devreye girer.
+- `iskur` asgari aralığı ve `enrich` çağrısı Aşama 5 runner'ında uygulanacak.
 
 ## Aşama 3 — Kaynak keşfi
 
