@@ -10,7 +10,7 @@ Kaynaklar:
 |---|---|---|
 | `kamuilan_sbb` | https://kamuilan.sbb.gov.tr | Cumhurbaşkanlığı SBB merkezi kamu ilan sayfası, en yoğun kaynak |
 | `ilan_gov` | https://www.ilan.gov.tr | Basın İlan Kurumu, "Personel Alımı" kategorisi |
-| `kariyer_kapisi` | https://kariyerkapisi.cbiko.gov.tr | CBİKO Kariyer Kapısı ilan listesi (başvurular e-Devlet ile, liste herkese açık olmalı) |
+| `kariyer_kapisi` | https://kariyerkapisi.gov.tr/isealim | CBİKO Kariyer Kapısı ilan listesi (başvurular e-Devlet ile, liste herkese açık; eski `kariyerkapisi.cbiko.gov.tr` artık çözülmüyor) |
 | `iskur` | https://www.iskur.gov.tr / https://esube.iskur.gov.tr | "Kamu Memur Alımı" ilanları |
 | `resmi_gazete` | https://www.resmigazete.gov.tr | Günlük sayı, İlan Bölümü (personel/öğretim üyesi alım ilanları) |
 | `yerel_yonetimler` | https://yerelyonetimler.csb.gov.tr | Belediye ve bağlı kuruluş personel ilanları |

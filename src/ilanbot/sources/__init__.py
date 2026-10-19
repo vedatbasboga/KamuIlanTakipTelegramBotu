@@ -18,7 +18,7 @@ SOURCE_NAMES: tuple[str, ...] = (
 DISPLAY_NAMES: dict[str, str] = {
     "kamuilan_sbb": "kamuilan.sbb.gov.tr",
     "ilan_gov": "ilan.gov.tr",
-    "kariyer_kapisi": "kariyerkapisi.cbiko.gov.tr",
+    "kariyer_kapisi": "kariyerkapisi.gov.tr",
     "iskur": "iskur.gov.tr",
     "resmi_gazete": "resmigazete.gov.tr",
     "yerel_yonetimler": "yerelyonetimler.csb.gov.tr",
