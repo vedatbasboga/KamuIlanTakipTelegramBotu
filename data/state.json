@@ -185,19 +185,19 @@
       "bootstrapped": true,
       "consecutive_failures": 0,
       "last_count": 40,
-      "last_success": "2026-10-30T13:48:49+03:00",
+      "last_success": "2026-10-30T19:59:26+03:00",
       "warned": false
     },
     "iskur": {
       "bootstrapped": true,
       "consecutive_failures": 0,
-      "last_count": 30,
-      "last_success": "2026-10-30T13:48:49+03:00",
+      "last_count": 29,
+      "last_success": "2026-10-30T19:59:26+03:00",
       "warned": false
     }
   },
   "stats": {
-    "scanned": 1063,
+    "scanned": 1132,
     "sent": 43
   },
   "version": 1
