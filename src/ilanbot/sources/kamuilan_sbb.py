@@ -5,9 +5,11 @@ Ayrıntılar: docs/kaynaklar.md#kamuilan_sbb
 
 from __future__ import annotations
 
+import dataclasses
 import hashlib
 import re
 from datetime import datetime
+from urllib.parse import urljoin
 
 import httpx
 from bs4 import BeautifulSoup, Tag
@@ -16,6 +18,7 @@ from ..dates import month_number
 from ..http import get_with_retry
 from ..models import TZ, Ilan, find_iller, normalize_education, normalize_kpss
 from ..models import now as _now
+from ..pdf import extract_text
 from ..text import squash_spaces, tr_upper
 from .base import BaseSource, ParseError, parse_rows
 
@@ -114,6 +117,7 @@ def _parse_row(published: datetime | None, a: Tag) -> Ilan:
         kpss_types=frozenset(normalize_kpss(title)),
         locations=frozenset(find_iller(institution)),
         position_count=position_count(title),
+        detail_url=urljoin(BASE_URL, a["href"]),
     )
 
 
@@ -148,3 +152,8 @@ class KamuIlanSbbSource(BaseSource):
 
     def list_items(self, client: httpx.Client) -> list[Ilan]:
         return parse(get_with_retry(client, BASE_URL).text)
+
+    def enrich(self, client: httpx.Client, ilan: Ilan) -> Ilan:
+        # `kod` bu çalışmanın liste yanıtından gelir; Referer olmadan site 404 sayfası döner.
+        pdf = get_with_retry(client, ilan.detail_url, headers={"Referer": BASE_URL}).content
+        return dataclasses.replace(ilan, full_text=extract_text(pdf))

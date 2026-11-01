@@ -7,6 +7,7 @@ ilanı olan iller bulunur, sonra her biri ayrı çekilir (~18 istek, ~10 MB). Bu
 
 from __future__ import annotations
 
+import dataclasses
 import re
 from urllib.parse import quote
 
@@ -16,6 +17,7 @@ from bs4 import BeautifulSoup, Tag
 from ..dates import parse_tr_date
 from ..http import get_with_retry
 from ..models import Ilan, normalize_education, normalize_il, normalize_kpss
+from ..pdf import extract_text
 from ..text import squash_spaces
 from .base import BaseSource, ParseError, parse_rows
 
@@ -60,15 +62,17 @@ def _parse_row(row: Tag, il: str | None) -> Ilan:
     title = _TRAILING_DATE_RE.sub("", squash_spaces(cells[1].get_text(" ")))
     if not title:
         raise ValueError("başlık boş")
+    url = SITE + quote(file_url, safe="/-_.~")
     return Ilan(
         source=NAME,
         id=m.group(1),
         title=title,
-        url=SITE + quote(file_url, safe="/-_.~"),
+        url=url,
         deadline=deadline,
         education_levels=frozenset(normalize_education(title)),
         kpss_types=frozenset(normalize_kpss(title)),
         locations=frozenset({il}) if il else frozenset(),
+        detail_url=url,
     )
 
 
@@ -85,3 +89,7 @@ class IskurSource(BaseSource):
             for ilan in parse(page, city):
                 items.setdefault(ilan.id, ilan)
         return list(items.values())
+
+    def enrich(self, client: httpx.Client, ilan: Ilan) -> Ilan:
+        pdf = get_with_retry(client, ilan.detail_url).content
+        return dataclasses.replace(ilan, full_text=extract_text(pdf))

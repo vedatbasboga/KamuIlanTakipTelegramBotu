@@ -62,6 +62,14 @@ def test_invalid_config(raw, fragment):
         parse_config(raw)
 
 
+def test_occupation_filter_keys():
+    f = parse_config(
+        {"filters": {"priority_institutions": ["sağlık bakanlığı"], "occupation_keywords": ["ebe"]}}
+    ).filters
+    assert f.priority_institutions == ("sağlık bakanlığı",)
+    assert f.occupation_keywords == ("ebe",)
+
+
 def test_missing_file(tmp_path):
     with pytest.raises(ConfigError, match="bulunamadı"):
         load_config(tmp_path / "yok.yaml")

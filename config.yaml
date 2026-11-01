@@ -21,8 +21,22 @@ runners:
   local: [kamuilan_sbb, kariyer_kapisi, yerel_yonetimler]
 
 filters:
-  # Şu an tüm filtreler kapalı: bot herkese açık kullanım için tüm kamu ilanlarını gönderir.
-  # Kişisel kullanımda daraltmak için aşağıdaki listeleri doldur.
+  # Şu an kanala Sağlık Bakanlığı'nın tüm ilanları ve diğer kurumların ebelik ilanları gelir.
+
+  # Bu kurumların tüm ilanları gelir, meslek aranmaz. Kurum adı + başlıkta aranır (metinde değil).
+  priority_institutions:
+    - sağlık bakanlığı
+    - il sağlık müdürlüğü
+    - devlet hastanesi
+    - şehir hastanesi
+    - eğitim ve araştırma hastanesi
+    - türkiye ilaç ve tıbbi cihaz kurumu
+    - türkiye sağlık enstitüleri
+  # Diğer kurumlarda bu mesleklerden biri başlıkta ya da ilan metninde (PDF dahil) geçmeli.
+  # Tam kelime aranır ("ebe", "sebebiyle" içinde eşleşmez); sondaki * ek kabul eder.
+  # Metin okunamazsa (taranmış PDF) karar filtre_belirsizse_gonder'e kalır. Kariyer Kapısı ve
+  # Yerel Yönetimler ilan metni sunmadığı için oralarda yalnızca başlığa bakılır.
+  occupation_keywords: [ebe, "ebeli*", "ebele*"]
 
   # Geçerli değerler: ortaogretim, onlisans, lisans, yuksek_lisans, doktora
   education_levels: []                # boş liste = filtre yok (ör. [lisans, onlisans])
@@ -38,7 +52,7 @@ filters:
   #   askeri:   "subay", "astsubay"
   #   duyuru:   "iptal ilanı", "düzeltme ilanı"
   exclude_keywords: []
-  # Bir ilanda filtrelenen alan (öğrenim, KPSS, il) okunamadıysa ilanı yine de gönder.
+  # Bir ilanda filtrelenen alan (öğrenim, KPSS, il, ilan metni) okunamadıysa ilanı yine de gönder.
   # Kaçırılan ilan, fazladan gelen bildirimden daha kötüdür.
   filtre_belirsizse_gonder: true
 

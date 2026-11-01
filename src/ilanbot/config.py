@@ -24,6 +24,8 @@ class FiltersConfig:
     locations: frozenset[str] = frozenset()
     include_keywords: tuple[str, ...] = ()
     exclude_keywords: tuple[str, ...] = ()
+    priority_institutions: tuple[str, ...] = ()
+    occupation_keywords: tuple[str, ...] = ()
     filtre_belirsizse_gonder: bool = True
 
 
@@ -67,6 +69,8 @@ _FILTER_KEYS = {
     "locations",
     "include_keywords",
     "exclude_keywords",
+    "priority_institutions",
+    "occupation_keywords",
     "filtre_belirsizse_gonder",
 }
 _NOTIFY_KEYS = {"max_messages_per_run", "show_deadline_days_left"}
@@ -101,6 +105,10 @@ def parse_config(raw: Any) -> Config:
         locations=_locations(f.get("locations")),
         include_keywords=_keywords(f.get("include_keywords"), "filters.include_keywords"),
         exclude_keywords=_keywords(f.get("exclude_keywords"), "filters.exclude_keywords"),
+        priority_institutions=_keywords(
+            f.get("priority_institutions"), "filters.priority_institutions"
+        ),
+        occupation_keywords=_keywords(f.get("occupation_keywords"), "filters.occupation_keywords"),
         filtre_belirsizse_gonder=_bool(
             f.get("filtre_belirsizse_gonder", True), "filters.filtre_belirsizse_gonder"
         ),

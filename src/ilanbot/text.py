@@ -66,3 +66,18 @@ def contains_keyword(text: str, keyword: str) -> bool:
     if not needle:
         return False
     return needle in fold_for_match(text)
+
+
+def contains_word(text: str, word: str) -> bool:
+    """`word` metinde ayrı bir kelime olarak geçiyor mu? Sondaki `*` ek kabul eder ("ebeli*").
+
+    `contains_keyword`'den farkı: "ebe" kelimesi "sebebiyle" ya da "ebeveyn" içinde eşleşmez. Tam
+    ilan metninde aramak bunu gerektiriyor. PDF'lerde "EBELIK" gibi yazımlar olduğu için ASCII'ye
+    indirgenerek karşılaştırılır.
+    """
+    stem = ascii_fold(fold_for_match(word.removesuffix("*")))
+    if not stem:
+        return False
+    tail = "" if word.endswith("*") else r"(?!\w)"
+    pattern = rf"(?<!\w){re.escape(stem)}{tail}"
+    return re.search(pattern, ascii_fold(fold_for_match(text))) is not None

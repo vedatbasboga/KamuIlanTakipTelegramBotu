@@ -67,6 +67,7 @@ def test_parse_detail_extracts_kpss_and_education():
     assert enriched.kpss_types == {"P3"}
     assert enriched.education_levels == {"lisans"}
     assert enriched.id == base.id
+    assert enriched.full_text
 
 
 def test_parse_detail_empty_content_keeps_ilan():

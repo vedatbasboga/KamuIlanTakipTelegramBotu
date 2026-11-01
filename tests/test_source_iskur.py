@@ -3,7 +3,7 @@ from datetime import datetime
 import httpx
 import pytest
 import respx
-from conftest import fixture_text
+from conftest import fixture_bytes, fixture_text
 
 from ilanbot.models import TZ
 from ilanbot.sources.base import ParseError
@@ -61,3 +61,12 @@ def test_list_items_fetches_each_city():
     assert route.call_count == 1 + 17
     assert route.calls[1].request.url.params["il"] == "Ağrı"
     assert len(items) == 20
+
+
+@respx.mock
+def test_enrich_reads_pdf_from_ilan_url(items):
+    ilan = items[0]
+    assert ilan.detail_url == ilan.url
+    respx.get(ilan.url).respond(200, content=fixture_bytes("kamuilan_sbb/ilan_ebelik.pdf"))
+    with httpx.Client() as client:
+        assert IskurSource().enrich(client, ilan).full_text

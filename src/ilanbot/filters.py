@@ -3,6 +3,9 @@
 Kurallar VE ile bağlanır; listesi boş kural atlanır. Öğrenim/KPSS/il alanı ilanda yoksa karar
 `filtre_belirsizse_gonder`'e kalır (kaçırılan ilan, fazla bildirimden kötüdür).
 `exclude_keywords` her zaman önceliklidir.
+
+`priority_institutions` + `occupation_keywords` birlikte tek kuraldır: öncelikli kurumun her ilanı
+geçer, diğer kurumlarda meslek başlıkta ya da tam ilan metninde aranır.
 """
 
 from __future__ import annotations
@@ -11,7 +14,7 @@ from collections.abc import Iterable
 
 from .config import FiltersConfig
 from .models import Ilan
-from .text import contains_keyword
+from .text import contains_keyword, contains_word
 
 # Bu ifadeler geçen ilanlar her il filtresiyle eşleşir.
 NATIONWIDE_PHRASES = ("türkiye geneli", "tüm iller", "tüm türkiye", "81 il")
@@ -34,6 +37,12 @@ def matches(ilan: Ilan, f: FiltersConfig) -> tuple[bool, str]:
         return False, "aranan kelimelerden hiçbiri yok"
 
     notes = []
+    ok, note = _check_occupation(ilan, f, text)
+    if not ok:
+        return False, note
+    if note:
+        notes.append(note)
+
     for label, wanted, have in (
         ("öğrenim", f.education_levels, ilan.education_levels),
         ("KPSS", f.kpss_types, ilan.kpss_types),
@@ -54,6 +63,28 @@ def matches(ilan: Ilan, f: FiltersConfig) -> tuple[bool, str]:
                 notes.append(note)
 
     return True, "; ".join(notes) or "uygun"
+
+
+def _check_occupation(ilan: Ilan, f: FiltersConfig, text: str) -> tuple[bool, str]:
+    if not f.priority_institutions and not f.occupation_keywords:
+        return True, ""
+    # Kurum sadece kurum adı + başlıkta aranır: üniversite ilanlarının metninde de "Sağlık
+    # Bakanlığı" geçer. İŞKUR kurum adı vermez, adı başlıkta yazar.
+    head = " ".join(p for p in (ilan.institution, ilan.title) if p)
+    if any(contains_keyword(head, kw) for kw in f.priority_institutions):
+        return True, ""
+    if not f.occupation_keywords:
+        return False, "öncelikli kurum değil"
+    body = f"{text} {ilan.full_text or ''}"
+    if any(contains_word(body, kw) for kw in f.occupation_keywords):
+        return True, ""
+    # Metin sunmayan kaynakta karar başlığa göre verilir: "belirsiz" sayılsa kaynağın her ilanı
+    # geçerdi. Bu ilanların çoğu kamuilan'da da var ve orada PDF'i okunuyor.
+    if ilan.detail_url and not ilan.full_text:
+        if f.filtre_belirsizse_gonder:
+            return True, "ilan metni okunamadı → gönderiliyor"
+        return False, "ilan metni okunamadı → eleniyor"
+    return False, "meslek bulunamadı"
 
 
 def _check_set(

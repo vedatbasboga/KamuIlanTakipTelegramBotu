@@ -4,9 +4,9 @@ from datetime import datetime
 import httpx
 import pytest
 import respx
-from conftest import FIXTURE_NOW, fixture_text
+from conftest import FIXTURE_NOW, fixture_bytes, fixture_text
 
-from ilanbot.models import TZ
+from ilanbot.models import TZ, Ilan
 from ilanbot.sources.base import ParseError
 from ilanbot.sources.kamuilan_sbb import BASE_URL, KamuIlanSbbSource, parse, position_count
 
@@ -95,3 +95,22 @@ def test_list_items_fetches_home_page():
         items = KamuIlanSbbSource().list_items(client)
     assert route.called
     assert len(items) == 98
+
+
+def test_detail_url_is_absolute_but_user_url_stays_stable(items):
+    assert all(i.detail_url.startswith(f"{BASE_URL}ilanDetay.aspx?kod=") for i in items)
+    assert all(i.url == BASE_URL for i in items)
+
+
+@respx.mock
+@pytest.mark.parametrize(
+    ("fixture", "readable"), [("ilan_ebelik.pdf", True), ("ilan_taranmis.pdf", False)]
+)
+def test_enrich_reads_pdf_with_referer(fixture, readable):
+    detail = f"{BASE_URL}ilanDetay.aspx?kod=abc"
+    route = respx.get(detail).respond(200, content=fixture_bytes(f"kamuilan_sbb/{fixture}"))
+    base = Ilan(source="kamuilan_sbb", id="1", title="t", url=BASE_URL, detail_url=detail)
+    with httpx.Client() as client:
+        enriched = KamuIlanSbbSource().enrich(client, base)
+    assert route.calls.last.request.headers["Referer"] == BASE_URL
+    assert bool(enriched.full_text) is readable

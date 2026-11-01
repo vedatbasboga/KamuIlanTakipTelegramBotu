@@ -101,3 +101,70 @@ def test_nationwide_matches_any_location_filter():
     f = F(locations={"İZMİR"}, filtre_belirsizse_gonder=False)
     assert matches(ilan(title="Türkiye geneli 500 memur alımı"), f)[0]
     assert matches(ilan(title="Tüm illerde istihdam", locations=frozenset({"ANKARA"})), f)[0]
+
+
+EBE_RULE = dict(
+    priority_institutions=("sağlık bakanlığı", "il sağlık müdürlüğü"),
+    occupation_keywords=("ebe", "ebeli*", "ebele*"),
+)
+
+
+@pytest.mark.parametrize(
+    "fields",
+    [
+        {"institution": "T.C. SAĞLIK BAKANLIĞI", "title": "Sürekli İşçi Alım İlanı"},
+        {"institution": "İZMİR İL SAĞLIK MÜDÜRLÜĞÜ", "title": "Memur Alımı"},
+        {"title": "Sağlık Bakanlığı Sözleşmeli Personel Alım İlanı"},  # İŞKUR: kurum alanı yok
+    ],
+)
+def test_priority_institution_passes_without_occupation(fields):
+    i = ilan(detail_url="https://x", full_text="Bilişim uzmanı", **fields)
+    assert matches(i, F(**EBE_RULE))[0]
+
+
+@pytest.mark.parametrize(
+    "fields",
+    [
+        {"title": "Sözleşmeli Ebe Alımı"},
+        {"title": "EBELİK BÖLÜMÜ ÖĞRETİM GÖREVLİSİ"},
+        {"full_text": "Sağlık Bilimleri Fakültesi Ebelik Bölümü mezunu olmak"},
+        {"full_text": "3 Hemşire/Ebe, 2 Tekniker"},
+        {"full_text": "EBELIK lisans mezunu"},  # bazı PDF'lerde noktasız I
+        {"full_text": "Ebeler için ek ödeme"},
+    ],
+)
+def test_other_institution_needs_occupation(fields):
+    base = {"institution": "EGE ÜNİVERSİTESİ", "detail_url": "https://x", "full_text": "metin"}
+    assert matches(ilan(**{**base, **fields}), F(**EBE_RULE))[0]
+
+
+@pytest.mark.parametrize(
+    "text", ["Muhasebe uzmanı", "bu sebeple", "ebeveyn izni", "Sağlık Bakanlığı onaylı sertifika"]
+)
+def test_lookalikes_and_body_mentions_do_not_match(text):
+    i = ilan(institution="EGE ÜNİVERSİTESİ", detail_url="https://x", full_text=text)
+    assert not matches(i, F(**EBE_RULE))[0]
+
+
+def test_unreadable_text_follows_uncertainty_setting():
+    i = ilan(institution="EGE ÜNİVERSİTESİ", detail_url="https://x", full_text=None)
+    ok, reason = matches(i, F(**EBE_RULE))
+    assert ok and "okunamadı" in reason
+    ok, reason = matches(i, F(**EBE_RULE, filtre_belirsizse_gonder=False))
+    assert not ok and "okunamadı" in reason
+
+
+def test_source_without_text_is_decided_by_title():
+    assert not matches(ilan(title="Zabıta Memuru Alımı"), F(**EBE_RULE))[0]
+    assert matches(ilan(title="Ebe Alımı"), F(**EBE_RULE))[0]
+
+
+def test_priority_institutions_alone_reject_others_even_if_unreadable():
+    f = F(priority_institutions=("sağlık bakanlığı",))
+    assert not matches(ilan(institution="EGE ÜNİVERSİTESİ", detail_url="https://x"), f)[0]
+
+
+def test_occupation_rule_is_anded_with_exclude_and_sets():
+    f = F(**EBE_RULE, exclude_keywords=["iptal ilanı"], kpss_types={"P3"})
+    assert not matches(ilan(title="Ebe Alımı İptal İlanı"), f)[0]
+    assert not matches(ilan(title="Ebe Alımı", kpss_types=frozenset({"P94"})), f)[0]

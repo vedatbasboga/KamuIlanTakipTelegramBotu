@@ -10,7 +10,25 @@ from ilanbot.models import (
     normalize_kpss,
     normalize_url,
 )
-from ilanbot.text import contains_keyword, tr_lower, tr_upper
+from ilanbot.text import contains_keyword, contains_word, tr_lower, tr_upper
+
+
+@pytest.mark.parametrize(
+    ("text", "word", "expected"),
+    [
+        ("Ebe alınacak", "ebe", True),
+        ("HEMŞİRE/EBE (Lisans)", "ebe", True),
+        ("muhasebe sebebiyle", "ebe", False),
+        ("ebeveyn", "ebe", False),
+        ("EBELİĞİNE", "ebeli*", True),
+        ("EBELIK", "ebelik", True),
+        ("Ebelikbölümü", "ebeli*", True),
+        ("sebeli", "ebeli*", False),
+        ("metin", "*", False),
+    ],
+)
+def test_contains_word(text, word, expected):
+    assert contains_word(text, word) is expected
 
 
 class TestText:

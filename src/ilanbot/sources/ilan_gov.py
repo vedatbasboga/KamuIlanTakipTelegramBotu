@@ -76,11 +76,12 @@ def _parse_row(ad: dict[str, Any]) -> Ilan:
         kpss_types=frozenset(normalize_kpss(title)),
         locations=frozenset({il}) if il else frozenset(),
         summary=f"Kategori: {category}" if category else None,
+        detail_url=DETAIL_URL,
     )
 
 
 def parse_detail(raw: Any, ilan: Ilan) -> Ilan:
-    """GetAdDetail yanıtındaki tam metinden öğrenim, KPSS ve (bulunursa) son başvuruyu ekler."""
+    """GetAdDetail yanıtındaki tam metni, öğrenim, KPSS ve (bulunursa) son başvuruyu ekler."""
     content = (raw.get("result") or {}).get("content") or ""
     text = squash_spaces(BeautifulSoup(content, "lxml").get_text(" "))
     if not text:
@@ -93,6 +94,7 @@ def parse_detail(raw: Any, ilan: Ilan) -> Ilan:
         education_levels=ilan.education_levels | normalize_education(text),
         kpss_types=ilan.kpss_types | normalize_kpss(text),
         deadline=deadline,
+        full_text=text,
     )
 
 

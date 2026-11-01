@@ -32,6 +32,9 @@ class Ilan:
     locations: frozenset[str] = frozenset()  # il adları: büyük harf, Türkçe karakterli
     position_count: int | None = None
     summary: str | None = None  # kısa açıklama (filtre için metin)
+    # Tam metnin alındığı adres; None = kaynak ilan metni sunmuyor. Kullanıcıya gösterilmez.
+    detail_url: str | None = None
+    full_text: str | None = None  # `enrich` doldurur; None = metin (henüz) okunamadı
 
     @property
     def key(self) -> str:
