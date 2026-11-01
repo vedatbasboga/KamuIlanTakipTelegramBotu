@@ -57,5 +57,8 @@ jobs:
           git add data/state-local.json || exit /b 1
           git diff --cached --quiet && exit /b 0
           git commit -m "state (bilgisayar)" || exit /b 1
+          rem Runner .git klasörünü korur: yarım kalmış rebase her pull'u düşürüp state'in kaydını
+          rem kalıcı olarak engeller. --abort değil --quit: --abort yukarıdaki commit'i geri alır.
+          git rebase --quit 2>nul
           git pull --rebase || exit /b 1
           git push || exit /b 1
