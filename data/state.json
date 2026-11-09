@@ -176,6 +176,8 @@
     "ilan_gov:2281111": "2026-11-06T14:59:28+03:00",
     "ilan_gov:2281209": "2026-11-06T14:59:28+03:00",
     "ilan_gov:2281218": "2026-11-06T14:59:28+03:00",
+    "ilan_gov:2283079": "2026-11-10T01:57:26+03:00",
+    "ilan_gov:2283080": "2026-11-10T01:57:26+03:00",
     "ilan_gov:2283081": "2026-11-09T15:44:38+03:00",
     "ilan_gov:2283093": "2026-11-09T15:44:38+03:00",
     "ilan_gov:2283096": "2026-11-09T15:44:38+03:00",
@@ -276,19 +278,19 @@
       "bootstrapped": true,
       "consecutive_failures": 0,
       "last_count": 40,
-      "last_success": "2026-11-09T15:44:38+03:00",
+      "last_success": "2026-11-10T01:57:26+03:00",
       "warned": false
     },
     "iskur": {
       "bootstrapped": true,
       "consecutive_failures": 0,
-      "last_count": 36,
-      "last_success": "2026-11-09T15:44:38+03:00",
+      "last_count": 35,
+      "last_success": "2026-11-10T01:57:26+03:00",
       "warned": false
     }
   },
   "stats": {
-    "scanned": 145,
+    "scanned": 220,
     "sent": 3
   },
   "version": 1
