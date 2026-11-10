@@ -323,26 +323,26 @@
       "bootstrapped": true,
       "consecutive_failures": 0,
       "last_count": 96,
-      "last_success": "2026-11-10T11:40:56+03:00",
+      "last_success": "2026-11-10T15:48:38+03:00",
       "warned": false
     },
     "kariyer_kapisi": {
       "bootstrapped": true,
       "consecutive_failures": 0,
       "last_count": 23,
-      "last_success": "2026-11-10T11:40:56+03:00",
+      "last_success": "2026-11-10T15:48:38+03:00",
       "warned": false
     },
     "yerel_yonetimler": {
       "bootstrapped": true,
       "consecutive_failures": 0,
       "last_count": 12,
-      "last_success": "2026-11-10T11:40:56+03:00",
+      "last_success": "2026-11-10T15:48:38+03:00",
       "warned": false
     }
   },
   "stats": {
-    "scanned": 398,
+    "scanned": 529,
     "sent": 2
   },
   "version": 1
