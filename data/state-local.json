@@ -159,6 +159,7 @@
     "kamuilan_sbb:a49e3b299108568a": "2026-11-01T20:16:37+03:00",
     "kamuilan_sbb:a513df57460033bd": "2026-10-19T13:51:17+03:00",
     "kamuilan_sbb:a568b33acc6860f1": "2026-11-01T20:16:37+03:00",
+    "kamuilan_sbb:a6bbdf434a20a55d": "2026-11-11T12:09:09+03:00",
     "kamuilan_sbb:a869f518ab7477e4": "2026-10-19T13:51:17+03:00",
     "kamuilan_sbb:aafb8c3b2cedc83a": "2026-11-05T10:21:38+03:00",
     "kamuilan_sbb:abcd593e77925d45": "2026-10-19T13:51:17+03:00",
@@ -322,27 +323,27 @@
     "kamuilan_sbb": {
       "bootstrapped": true,
       "consecutive_failures": 0,
-      "last_count": 96,
-      "last_success": "2026-11-10T23:03:50+03:00",
+      "last_count": 91,
+      "last_success": "2026-11-11T12:09:09+03:00",
       "warned": false
     },
     "kariyer_kapisi": {
       "bootstrapped": true,
       "consecutive_failures": 0,
       "last_count": 24,
-      "last_success": "2026-11-10T23:03:50+03:00",
+      "last_success": "2026-11-11T12:09:09+03:00",
       "warned": false
     },
     "yerel_yonetimler": {
       "bootstrapped": true,
       "consecutive_failures": 0,
       "last_count": 12,
-      "last_success": "2026-11-10T23:03:50+03:00",
+      "last_success": "2026-11-11T12:09:09+03:00",
       "warned": false
     }
   },
   "stats": {
-    "scanned": 661,
+    "scanned": 788,
     "sent": 2
   },
   "version": 1
