@@ -383,27 +383,27 @@
     "kamuilan_sbb": {
       "bootstrapped": true,
       "consecutive_failures": 0,
-      "last_count": 108,
-      "last_success": "2026-11-20T20:23:24+03:00",
+      "last_count": 93,
+      "last_success": "2026-11-21T11:07:43+03:00",
       "warned": false
     },
     "kariyer_kapisi": {
       "bootstrapped": true,
       "consecutive_failures": 0,
-      "last_count": 24,
-      "last_success": "2026-11-20T20:23:24+03:00",
+      "last_count": 23,
+      "last_success": "2026-11-21T11:07:43+03:00",
       "warned": false
     },
     "yerel_yonetimler": {
       "bootstrapped": true,
       "consecutive_failures": 0,
       "last_count": 12,
-      "last_success": "2026-11-20T20:23:24+03:00",
+      "last_success": "2026-11-21T11:07:43+03:00",
       "warned": false
     }
   },
   "stats": {
-    "scanned": 805,
+    "scanned": 933,
     "sent": 3
   },
   "version": 1
