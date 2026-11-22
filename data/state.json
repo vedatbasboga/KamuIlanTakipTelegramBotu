@@ -1,5 +1,5 @@
 {
-  "last_heartbeat": "2026-11-15T21:45:29+03:00",
+  "last_heartbeat": "2026-11-22T22:56:21+03:00",
   "seen": {
     "ilan_gov:2253698": "2026-10-19T13:51:17+03:00",
     "ilan_gov:2256365": "2026-10-19T13:51:17+03:00",
@@ -376,20 +376,20 @@
       "bootstrapped": true,
       "consecutive_failures": 0,
       "last_count": 40,
-      "last_success": "2026-11-22T15:28:50+03:00",
+      "last_success": "2026-11-22T22:56:21+03:00",
       "warned": false
     },
     "iskur": {
       "bootstrapped": true,
       "consecutive_failures": 0,
       "last_count": 35,
-      "last_success": "2026-11-22T15:28:50+03:00",
+      "last_success": "2026-11-22T22:56:21+03:00",
       "warned": false
     }
   },
   "stats": {
-    "scanned": 1133,
-    "sent": 3
+    "scanned": 0,
+    "sent": 0
   },
   "version": 1
 }
