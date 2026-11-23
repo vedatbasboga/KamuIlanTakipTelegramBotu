@@ -306,6 +306,7 @@
     "kariyer_kapisi:35749108-46fb-4b62-bc89-3700f1525802": "2026-11-02T00:16:57+03:00",
     "kariyer_kapisi:39c5ca3c-3571-485b-b226-2ff559360a0a": "2026-11-01T14:23:19+03:00",
     "kariyer_kapisi:39d5a688-3b17-48de-a123-9140f55af29e": "2026-10-19T13:51:17+03:00",
+    "kariyer_kapisi:3d77e559-3036-4ce5-8131-0d7adae39f48": "2026-11-23T23:39:04+03:00",
     "kariyer_kapisi:41353f9d-7dda-4b65-b2ba-de6bf8e72f54": "2026-11-12T09:24:23+03:00",
     "kariyer_kapisi:4850e095-8b16-4aba-9956-555740a41146": "2026-10-19T13:51:17+03:00",
     "kariyer_kapisi:4d1a4aba-67fa-449d-b19d-13b197a770f0": "2026-11-04T16:11:21+03:00",
@@ -400,26 +401,26 @@
       "bootstrapped": true,
       "consecutive_failures": 0,
       "last_count": 97,
-      "last_success": "2026-11-23T12:24:25+03:00",
+      "last_success": "2026-11-23T23:39:04+03:00",
       "warned": false
     },
     "kariyer_kapisi": {
       "bootstrapped": true,
       "consecutive_failures": 0,
-      "last_count": 23,
-      "last_success": "2026-11-23T12:24:25+03:00",
+      "last_count": 24,
+      "last_success": "2026-11-23T23:39:04+03:00",
       "warned": false
     },
     "yerel_yonetimler": {
       "bootstrapped": true,
       "consecutive_failures": 0,
       "last_count": 12,
-      "last_success": "2026-11-23T12:24:25+03:00",
+      "last_success": "2026-11-23T23:39:04+03:00",
       "warned": false
     }
   },
   "stats": {
-    "scanned": 1571,
+    "scanned": 1704,
     "sent": 4
   },
   "version": 1
