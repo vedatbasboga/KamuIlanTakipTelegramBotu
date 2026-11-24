@@ -82,6 +82,7 @@
     "kamuilan_sbb:39314712b03a6afd": "2026-11-09T00:15:33+03:00",
     "kamuilan_sbb:3b0c4ef33a11c1ef": "2026-11-01T20:16:37+03:00",
     "kamuilan_sbb:3b9d162760e39c77": "2026-11-20T20:23:24+03:00",
+    "kamuilan_sbb:3bb9a4ba75997e33": "2026-11-24T18:00:15+03:00",
     "kamuilan_sbb:3bddaff6e072030b": "2026-11-02T21:07:40+03:00",
     "kamuilan_sbb:3e3523ced949200b": "2026-10-19T13:51:17+03:00",
     "kamuilan_sbb:3e45596f2b945645": "2026-11-13T00:23:01+03:00",
@@ -121,6 +122,7 @@
     "kamuilan_sbb:58e7e71a6ce9a1e6": "2026-11-01T20:16:37+03:00",
     "kamuilan_sbb:591a6400861c428e": "2026-10-19T13:51:17+03:00",
     "kamuilan_sbb:592e6891d2667f23": "2026-10-19T13:51:17+03:00",
+    "kamuilan_sbb:59b2a6d53eb5a7ea": "2026-11-24T18:00:15+03:00",
     "kamuilan_sbb:5b6adaaf9e656677": "2026-11-13T23:09:50+03:00",
     "kamuilan_sbb:5c8b799a7906377d": "2026-11-23T12:24:25+03:00",
     "kamuilan_sbb:5d1affef93d64ad6": "2026-11-19T00:28:47+03:00",
@@ -175,6 +177,7 @@
     "kamuilan_sbb:90e785903bdd4e00": "2026-11-02T21:07:40+03:00",
     "kamuilan_sbb:91060314622cb4d5": "2026-10-19T13:51:17+03:00",
     "kamuilan_sbb:923b1e39a2ab6209": "2026-11-02T00:16:57+03:00",
+    "kamuilan_sbb:9271bd1288cdfae4": "2026-11-24T18:00:15+03:00",
     "kamuilan_sbb:92ac9e7d6f522e09": "2026-10-19T13:51:17+03:00",
     "kamuilan_sbb:93733a6fc4775baa": "2026-10-19T13:51:17+03:00",
     "kamuilan_sbb:9375f6413f8c1a7a": "2026-10-19T13:51:17+03:00",
@@ -278,6 +281,7 @@
     "kamuilan_sbb:f41f6923a5951ce4": "2026-10-19T13:51:17+03:00",
     "kamuilan_sbb:f6cde607e02e1018": "2026-10-19T13:51:17+03:00",
     "kamuilan_sbb:f81f4df05d523eb7": "2026-11-24T05:22:58+03:00",
+    "kamuilan_sbb:f8d68e521328a58a": "2026-11-24T18:00:15+03:00",
     "kamuilan_sbb:f8e0d04a061ebf6c": "2026-11-20T20:23:24+03:00",
     "kamuilan_sbb:fa3099ae3448fc5b": "2026-11-23T12:24:25+03:00",
     "kamuilan_sbb:fa384d045ba6d621": "2026-10-19T13:51:17+03:00",
@@ -317,6 +321,7 @@
     "kariyer_kapisi:56b19c9c-b32c-45ae-8fdc-101d776c8df3": "2026-10-19T13:51:17+03:00",
     "kariyer_kapisi:5976effc-ff4b-49b1-a5d7-c08d82d81636": "2026-11-01T14:23:19+03:00",
     "kariyer_kapisi:5a71a4f2-6023-4194-822c-01e687eb9b15": "2026-10-19T13:51:17+03:00",
+    "kariyer_kapisi:5fb0c697-781e-4ea8-befb-3f041d6b9385": "2026-11-24T18:00:15+03:00",
     "kariyer_kapisi:667b7787-181b-4063-af99-0f8f07ba1293": "2026-11-23T12:24:25+03:00",
     "kariyer_kapisi:6a34cb10-0ac0-41e0-a094-3ec83e29a644": "2026-11-19T00:28:47+03:00",
     "kariyer_kapisi:6e7cd2e5-b3d8-4c95-916b-6e1ff234b0b0": "2026-11-04T16:11:21+03:00",
@@ -325,6 +330,7 @@
     "kariyer_kapisi:72e593aa-e1b5-43c4-a4c5-63da01a63ef9": "2026-10-19T13:51:17+03:00",
     "kariyer_kapisi:7726dd9c-56dd-49e0-a0b2-a098e6c57b8a": "2026-11-01T14:23:19+03:00",
     "kariyer_kapisi:793cd518-1ca4-4e15-90ee-58989b15bd08": "2026-11-01T14:23:19+03:00",
+    "kariyer_kapisi:7cc8cb95-4799-4879-a104-8362bf62ca4d": "2026-11-24T18:00:15+03:00",
     "kariyer_kapisi:826fbdb8-f082-4294-9ac6-cd0abd98a7c9": "2026-10-19T13:51:17+03:00",
     "kariyer_kapisi:84e11358-b080-4b29-ae1e-3ab83bd8f689": "2026-11-07T12:48:46+03:00",
     "kariyer_kapisi:877cfe70-3bd5-4c0f-93e4-64da34f001f5": "2026-11-07T12:48:46+03:00",
@@ -402,27 +408,27 @@
     "kamuilan_sbb": {
       "bootstrapped": true,
       "consecutive_failures": 0,
-      "last_count": 86,
-      "last_success": "2026-11-24T05:22:58+03:00",
+      "last_count": 90,
+      "last_success": "2026-11-24T18:00:15+03:00",
       "warned": false
     },
     "kariyer_kapisi": {
       "bootstrapped": true,
       "consecutive_failures": 0,
-      "last_count": 23,
-      "last_success": "2026-11-24T05:22:58+03:00",
+      "last_count": 25,
+      "last_success": "2026-11-24T18:00:15+03:00",
       "warned": false
     },
     "yerel_yonetimler": {
       "bootstrapped": true,
       "consecutive_failures": 0,
       "last_count": 12,
-      "last_success": "2026-11-24T05:22:58+03:00",
+      "last_success": "2026-11-24T18:00:15+03:00",
       "warned": false
     }
   },
   "stats": {
-    "scanned": 1825,
+    "scanned": 1952,
     "sent": 5
   },
   "version": 1
